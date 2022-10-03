@@ -1,4 +1,4 @@
-export const books = [
+const books = [
     {
         id: 1,
         title: "Database and Applications Security: Integrating Information Security and Data Management",
@@ -18,3 +18,5 @@ export const books = [
         ISBN: 9780321434838
     }
 ]
+
+export default books;
