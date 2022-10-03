@@ -10,7 +10,7 @@ export const books = [
         title: "Information Security",
         author: "Mark Stamp",
         ISBN: 9780471738480
-    }
+    },
     {
         id: 3,
         title: "The Craft of System Security",
