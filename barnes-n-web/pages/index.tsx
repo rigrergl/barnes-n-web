@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
-import ExampleComponent from './components/ExampleComponent'
-import Container from 'react-bootstrap/Container';
+import type { NextPage } from "next";
+import ExampleComponent from "./components/ExampleComponent";
+import Container from "react-bootstrap/Container";
 
 const Home: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <h1>HelloWorld</h1>
       </ExampleComponent>
     </Container>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
