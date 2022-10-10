@@ -40,10 +40,10 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
 
 async function POST(req: NextApiRequest, res: NextApiResponse) {
   //TODO
-  res.status(200);
+  res.status(200).json({});
 }
 
 async function DELETE(req: NextApiRequest, res: NextApiResponse) {
   //TODO
-  res.status(200);
+  res.status(200).json({});
 }
