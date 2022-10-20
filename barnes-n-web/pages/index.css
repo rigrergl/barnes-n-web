@@ -1,0 +1,21 @@
+.header {
+    height: 100px;
+    width: 1440px;
+    background: #4B6272;
+}
+
+.headerColumn {
+    float: left;
+    width: 8%;
+}
+
+.headerRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+body {
+    background: #284B63;
+    width: 1440px;
+}
