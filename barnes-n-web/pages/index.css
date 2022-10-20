@@ -1,0 +1,26 @@
+.header {
+    height: 100px;
+    width: 1440px;
+    background: #4B6272;
+}
+
+.headerColumn8 {
+    float: left;
+    width: 8%;
+}
+
+.headerColumn15 {
+    float: left;
+    width: 15%;
+}
+
+.headerRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+body {
+    background: #284B63;
+    width: 1440px;
+}

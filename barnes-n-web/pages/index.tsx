@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import ExampleComponent from "./components/ExampleComponent";
 import Container from "react-bootstrap/Container";
+import React from 'react';
 
 const Home: NextPage = () => {
   return (
