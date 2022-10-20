@@ -1,23 +1,42 @@
+.page {
+    width: 1440px;
+    height: 1024px;
+}
+
 .header {
     height: 100px;
     width: 1440px;
     background: #4B6272;
+    margin-top: 0%;
 }
 
-.headerColumn8 {
+.headerLogo {
+    width: 75px; 
+    height: 75px;
     float: left;
-    width: 8%;
 }
 
-.headerColumn15 {
-    float: left;
-    width: 15%;
+.headerLogoText {
+    position: absolute;
+    font-size: 30px;
+    margin-left: 100px;
+    margin-top: 25px;
+    width: 22%;
 }
 
 .headerRow:after {
     content: "";
     display: table;
     clear: both;
+}
+
+.loginBox {
+    border-radius: 25px;
+    width: 490px;
+    height:490px;
+    background-color: #E5E5E5;
+    align-content: center;
+    align-self: center;
 }
 
 body {

@@ -3,9 +3,13 @@ import Header from "./components/Header";
 
 const Login = () => {
   return (
-    <div>
-        <Header />
-        Login
+    <div className='page'>
+        <div>
+          <Header />
+        </div>
+        <div className='loginBox'>
+          test
+        </div>
     </div>
   )
 }
