@@ -74,6 +74,16 @@
   box-sizing: border-box;
 }
 
+.registrationBox {
+    border-radius: 25px;
+    width: 490px;
+    height: 580px;
+    background-color: #E5E5E5;
+    position: absolute;
+    left: 490px;
+    top:25%
+}
+
 body {
   background: #284b63;
   width: 1440px;
