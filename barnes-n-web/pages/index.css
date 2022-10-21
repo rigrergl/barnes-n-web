@@ -33,10 +33,11 @@
 .loginBox {
     border-radius: 25px;
     width: 490px;
-    height:490px;
+    height: 490px;
     background-color: #E5E5E5;
-    align-content: center;
-    align-self: center;
+    position: absolute;
+    left: 490px;
+    top:25%
 }
 
 body {
