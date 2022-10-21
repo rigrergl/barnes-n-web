@@ -1,46 +1,80 @@
 .page {
-    width: 1440px;
-    height: 1024px;
+  width: 1440px;
+  height: 1024px;
 }
 
 .header {
-    height: 100px;
-    width: 1440px;
-    background: #4B6272;
-    margin-top: 0%;
+  height: 100px;
+  width: 1440px;
+  background: #4b6272;
+  margin-top: 0%;
 }
 
 .headerLogo {
-    width: 75px; 
-    height: 75px;
-    float: left;
+  width: 75px;
+  height: 75px;
+  float: left;
 }
 
 .headerLogoText {
-    position: absolute;
-    font-size: 30px;
-    margin-left: 100px;
-    margin-top: 25px;
-    width: 22%;
+  position: absolute;
+  font-size: 30px;
+  margin-left: 100px;
+  margin-top: 25px;
+  width: 22%;
 }
 
 .headerRow:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .loginBox {
-    border-radius: 25px;
-    width: 490px;
-    height: 490px;
-    background-color: #E5E5E5;
-    position: absolute;
-    left: 490px;
-    top:25%
+  border-radius: 25px;
+  width: 490px;
+  height: 490px;
+  background-color: #e5e5e5;
+  position: absolute;
+  left: 490px;
+  top: 25%;
+}
+
+.searchBox {
+  border-radius: 25px;
+  width: 980px;
+  height: 490px;
+  background-color: #e5e5e5;
+  position: absolute;
+  left: 245px;
+  top: 25%;
+}
+
+.resultsBox {
+  border-radius: 10px;
+  width: 450px;
+  height: 400px;
+  background-color: #c5c5c5;
+  top: 25%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  padding: 30px;
+  box-sizing: border-box;
 }
 
 body {
-    background: #284B63;
-    width: 1440px;
+  background: #284b63;
+  width: 1440px;
 }
