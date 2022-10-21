@@ -1,0 +1,29 @@
+.registrationBox {
+    position: absolute;
+}
+
+.registrationText {
+    position: relative;
+    text-align: center;
+    top: 10px;
+    font-size: 40px;
+    height: 60px;
+}
+
+.registrationInputBox {
+    position: relative;
+    text-align: left;
+    left: 90px;
+    font-size: 15px;
+    height: 10px;
+}
+
+.registrationButton {
+    position: relative;
+    text-align: center;
+    font-size: 15px;
+    height: 40px;
+    width: 150px;
+    background:#FB8500;
+    border-radius: 25px;
+}
