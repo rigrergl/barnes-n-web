@@ -4,6 +4,7 @@
 3. Run the project: `npm run dev`  *
 
 *Note*: Make sure to do steps 2 and 3 in the same directory as the package.json file
+You will also need to have [Node](https://nodejs.org/en/) installed on your local computer
 
 
 
