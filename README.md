@@ -1,4 +1,13 @@
-Things we are adding for security:
+### How to run code
+1. Clone the repo: `git clone https://github.com/rigrergl/barnes-n-web.git`
+2. Install dependencies: `npm i` *
+3. Run the project: `npm run dev`  *
+
+*Note*: Make sure to do steps 2 and 3 in the same directory as the package.json file
+
+
+
+### Things we are adding for security:
 
 - [X] Never shipping console logs (this might reveal sensitive information on the client)
 
