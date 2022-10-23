@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectionPool from "../../../../lib/db";
+import connectionPool from "@/lib/db";
 import secureLog from "../../../../lib/SecureLog";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
