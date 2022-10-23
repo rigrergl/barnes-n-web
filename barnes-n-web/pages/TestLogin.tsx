@@ -2,20 +2,23 @@ import { useState, createRef } from 'react'
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button';
 
 const TestLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const passwordInput = createRef();
 
+    const login = () => {
+        // TODO
+    }
 
     return (
         <Container style={{ width: "44%", paddingTop: 44 }}>
             <Row>
                 <Form.Label htmlFor="inputUsername">Username</Form.Label>
                 <Form.Control
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                     type="text"
                     id="inputUsername"
                 />
@@ -33,6 +36,9 @@ const TestLogin = () => {
                     and must not contain spaces, special characters, or emoji.
                 </Form.Text>
             </Row>
+            <div style={{width:100, paddingTop: 20, marginRight: 0, marginLeft: "auto"}}>
+                <Button onClick={login} style={{float: "right"}} variant="primary">Login</Button>
+            </div>
         </Container>
 
     )
