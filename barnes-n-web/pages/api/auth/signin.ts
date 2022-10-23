@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectionPool from "@/lib/db"
-var bcrypt = require('bcryptjs')
 
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken');
   /*
         Request Body:
          - username
@@ -15,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {username, hashedPassword} = req.body;
 
     //Get the hashedPassword from db
-    const query = `SELECT hashedPassword from Users WHERE username = '${username}'`;
+    const query = `SELECT user_id, hashedPassword from Users WHERE username = '${username}'`;
     try {
         connectionPool.query(
             query,
@@ -24,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     throw error;
                 }
 
+                const userId = results[0].user_id;
                 const expectedHashedPassword = results[0].hashedPassword;
                 const isPasswordValid = (expectedHashedPassword === hashedPassword);
 
@@ -32,6 +34,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         message: "Invalid password!"
                     });
                 }
+
+                const token = jwt.sign({id: userId}, process.env.SERVER_PRIVATE_KEY, {
+                    expiresIn: 86400 // 24 hours
+                })
+
+                return res.status(200).send({
+                    userId: userId,
+                    token:  token
+                });
             }
         );
     } catch (error: any) {
