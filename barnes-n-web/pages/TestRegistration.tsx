@@ -26,13 +26,6 @@ const TestRegistration = () => {
                 password: password
             })
         });
-            // .then(response => setHasError(response.status !== 200))
-            // .then(response => response.json())
-            // .then(data => {
-            //     setStatusMessage(data.message);
-            //     console.log(data)
-            //     // if (data.sta)
-            // })
 
         const data = await response.json();
         setHasError(response.status !== 200);
