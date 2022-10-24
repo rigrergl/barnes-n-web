@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const query = "SELECT * FROM TEST_USER";
+  const query = "SELECT username FROM Users";
 
   try {
     connectionPool.query(

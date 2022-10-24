@@ -4,13 +4,17 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button';
 
+const bcrypt = require("bcryptjs");
+
 const TestLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
 
     const login = () => {
-        // TODO
+        const hashedPassword = bcrypt.hashSync(password, "TODO:serverwillsendthesalt");
+
+        console.log(hashedPassword);
     }
 
     return (

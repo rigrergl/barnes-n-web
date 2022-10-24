@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
     */
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const {username, hashedPassword} = req.body;
+    const {username, password} = req.body;
 
     //Get the hashedPassword from db
     const query = `SELECT user_id, hashedPassword from Users WHERE username = '${username}'`;
@@ -25,9 +25,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     throw error;
                 }
 
-                const userId = results[0].user_id;
-                const expectedHashedPassword = results[0].hashedPassword;
-                const isPasswordValid = (expectedHashedPassword === hashedPassword);
+                const {userId, hashedPassword} = results[0];
+                const salt = bcrypt.getSalt(hashedPassword);
+                const reqHashedPassword = bcrypt.hashSync(password, salt);
+                const isPasswordValid = (hashedPassword === reqHashedPassword);
 
                 if(!isPasswordValid) {
                     return res.status(401).send({
