@@ -41,8 +41,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     });
                 }
 
-                const token = jwt.sign({id: userId}, process.env.SERVER_PRIVATE_KEY, {
-                    expiresIn: 86400 // 24 hours
+                //const privateKey = process.env.SERVER_PRIVATE_KEY;
+                const privateKeyBase64 : String = process.env.SERVER_PRIVATE_KEY || "";
+                const privateKey = Buffer.from(privateKeyBase64, 'base64').toString('utf8')
+
+                const token = jwt.sign({id: userId}, privateKey, {
+                    expiresIn: 86400, // 24 hours
+                    algorithm: 'RS256'
                 })
 
                 return res.status(200).send({
