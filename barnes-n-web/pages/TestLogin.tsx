@@ -28,7 +28,7 @@ const TestLogin = () => {
         }).then(
             response => response.json()
         ).then(
-            //TODO
+            data => localStorage.setItem('accessToken', data.token)
         );
     }
 
