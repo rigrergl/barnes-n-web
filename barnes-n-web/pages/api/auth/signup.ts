@@ -20,7 +20,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     throw error;
                 }
 
-                return res.status(200).send("Account successfully created !");
+                return res.status(200).send({
+                    message: "Account successfully created!"
+                });
             }
         );
     } catch(error: any) {
