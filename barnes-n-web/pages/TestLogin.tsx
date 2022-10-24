@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button';
+import getConfig from 'next/config'
 
 const bcrypt = require("bcryptjs");
 
@@ -10,11 +11,25 @@ const TestLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const { publicRuntimeConfig } = getConfig();
+    const backendUrl = publicRuntimeConfig.backendUrl;
+
 
     const login = () => {
-        const hashedPassword = bcrypt.hashSync(password, "TODO:serverwillsendthesalt");
-
-        console.log(hashedPassword);
+        fetch(backendUrl + "/auth/signin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then(
+            response => response.json()
+        ).then(
+            //TODO
+        );
     }
 
     return (
@@ -40,8 +55,8 @@ const TestLogin = () => {
                     and must not contain spaces, special characters, or emoji.
                 </Form.Text>
             </Row>
-            <div style={{width:100, paddingTop: 20, marginRight: 0, marginLeft: "auto"}}>
-                <Button onClick={login} style={{float: "right"}} variant="primary">Login</Button>
+            <div style={{ width: 100, paddingTop: 20, marginRight: 0, marginLeft: "auto" }}>
+                <Button onClick={login} style={{ float: "right" }} variant="primary">Login</Button>
             </div>
         </Container>
 

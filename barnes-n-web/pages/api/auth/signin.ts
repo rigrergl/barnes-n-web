@@ -24,6 +24,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (error) {
                     throw error;
                 }
+                if (results.length === 0) {
+                    return res.status(401).send({
+                        message: "User does not exist"
+                    });
+                }
 
                 const {userId, hashedPassword} = results[0];
                 const salt = bcrypt.getSalt(hashedPassword);
