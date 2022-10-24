@@ -6,8 +6,6 @@ import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
 import Alert from 'react-bootstrap/Alert';
 
-const bcrypt = require("bcryptjs");
-
 const TestRegistration = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
