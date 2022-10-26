@@ -13,6 +13,9 @@ You will also need to have [Node](https://nodejs.org/en/) installed on your loca
 - [X] Never shipping console logs (this might reveal sensitive information on the client)
 - [X] Store hashed passwords with salt 
 - [X] Use JWT accessTokens (sent to user when they authenticate, expire, signed with server's private key)
+- [X] For the accessToken cookie, set SameSite to Strict to add some protection against cross-site request forgery attacks (CSRF)[https://developer.mozilla.org/en-US/docs/Glossary/CSRF]
+- [X] For the accessToken cookie, set HttpOnly to true so that the token is only available to the server. This helps mitigate cross-site scripting attacks (XSS)[https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks#cross-site_scripting_(xss)]
+- [X] For the accessToken cookie, set Secure to true so that the cookie is only sent to the server with an encrypted request over the HTTPS protocol. This way the cookie is not sent over unsecured HTTP (exceot on localhost). This helps mitigate (man-in-the-middle)[https://developer.mozilla.org/en-US/docs/Glossary/MitM] attackers from easily accessing the information in the token.
 
 
 Security Features TODO
