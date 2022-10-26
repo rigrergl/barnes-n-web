@@ -4,12 +4,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
+import { Alert } from 'react-bootstrap';
 
 const bcrypt = require("bcryptjs");
 
 const TestLogin = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [success, setSuccess] = useState(false);
 
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
@@ -26,14 +28,22 @@ const TestLogin = () => {
                 password: password
             })
         }).then(
-            response => response.json()
-        ).then(
-            data => localStorage.setItem('accessToken', data.token)
-        );
+            response => {
+                if (response.ok) {
+                    setSuccess(true);
+                } else {
+                    // TODO
+                }
+            }
+        )
     }
 
     return (
         <Container style={{ width: "44%", paddingTop: 44 }}>
+             {success &&
+                (<Alert variant="success">
+                    Successfully logged in!
+                </Alert>)}
             <Row>
                 <Form.Label htmlFor="inputUsername">Username</Form.Label>
                 <Form.Control

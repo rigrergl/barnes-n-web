@@ -55,10 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 let cookieExpireTime = time + (1000 * 3600 * 24); // expires 24 hours from now
                 let cookieExpireDate = new Date(cookieExpireTime);
                 res.setHeader("Set-Cookie", `accessToken=${token}; SameSite=Strict; Expires=${cookieExpireDate.toUTCString()}; Path=/api`)
-                return res.status(200).send({
-                    userId: user_id,
-                    token:  token
-                });
+                return res.status(200).send({message: "Logged in successfully"});
             }
         );
     } catch (error: any) {
