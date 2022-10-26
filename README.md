@@ -11,10 +11,12 @@ You will also need to have [Node](https://nodejs.org/en/) installed on your loca
 ### Things we are adding for security:
 
 - [X] Never shipping console logs (this might reveal sensitive information on the client)
+- [X] Store hashed passwords with salt 
+- [X] Use JWT accessTokens (sent to user when they authenticate, expire, signed with server's private key)
 
 
 Security Features TODO
 - [ ] user HTTPS instead of HTTP for backend calls
 - [ ] Limit repeated login attempts from same source IP address / host
 - [ ] Password minimum requirements
-- [ ] Require re-login every thirty days
+- [ ] Require re-login every 24 hours (by using JWT tokens expiration date)

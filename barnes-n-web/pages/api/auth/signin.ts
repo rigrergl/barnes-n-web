@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     });
                 }
 
-                const {userId, hashedPassword} = results[0];
+                const {user_id, hashedPassword} = results[0];
                 const salt = bcrypt.getSalt(hashedPassword);
                 const reqHashedPassword = bcrypt.hashSync(password, salt);
                 const isPasswordValid = (hashedPassword === reqHashedPassword);
@@ -45,13 +45,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 const privateKeyBase64 : String = process.env.SERVER_PRIVATE_KEY || "";
                 const privateKey = Buffer.from(privateKeyBase64, 'base64').toString('utf8')
 
-                const token = jwt.sign({id: userId}, privateKey, {
+                const token = jwt.sign({user_id: user_id}, privateKey, {
                     expiresIn: 86400, // 24 hours
                     algorithm: 'RS256'
                 })
 
+                let now = new Date();
+                let time = now.getTime();
+                let cookieExpireTime = time + (1000 * 3600 * 24); // expires 24 hours from now
+                let cookieExpireDate = new Date(cookieExpireTime);
+                res.setHeader("Set-Cookie", `accessToken=${token}; SameSite=Strict; Expires=${cookieExpireDate.toUTCString()}; Path=/api`)
                 return res.status(200).send({
-                    userId: userId,
+                    userId: user_id,
                     token:  token
                 });
             }
