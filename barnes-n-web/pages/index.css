@@ -1,11 +1,9 @@
 .page {
-  width: 1440px;
   height: 1024px;
 }
 
 .header {
   height: 100px;
-  width: 1440px;
   background: #4b6272;
   margin-top: 0%;
 }
@@ -22,6 +20,10 @@
   margin-left: 100px;
   margin-top: 25px;
   width: 22%;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .headerRow:after {
@@ -86,5 +88,4 @@
 
 body {
   background: #284b63;
-  width: 1440px;
 }

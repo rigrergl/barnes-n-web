@@ -1,13 +1,68 @@
 import Header from "./components/Header";
+import { useState, createRef } from 'react'
+import getConfig from 'next/config'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
+
+const bcrypt = require("bcryptjs");
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const { publicRuntimeConfig } = getConfig();
+  const backendUrl = publicRuntimeConfig.backendUrl;
+
+  const login = () => {
+    fetch(backendUrl + "/auth/signin", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    }).then(
+        response => {
+            if (response.ok) {
+                setSuccess(true);
+            } else {
+                // TODO
+            }
+        }
+    )
+}
+
   return (
     <div className='page'>
 
         {/* Header Component */}
         <Header />
 
+        <Container fluid="sm" >
+        <Row >
+          <Col ><p className="text-center" style={{background:'white'}}> Login </p></Col>
+        </Row>
+        <Row>
+          <Col >New User? Sign Up</Col>
+        </Row>
+        <Row>
+          <Col >Email</Col>
+        </Row>
+        <Row>
+          <Col >Password</Col>
+        </Row>
+        <Row>
+          <Col >Forgot Password</Col>
+        </Row>
+        <Row>
+          <Col >Submit</Col>
+        </Row>
+      </Container>
         {/* Login Section */}
         <div className='loginBox'>
 
