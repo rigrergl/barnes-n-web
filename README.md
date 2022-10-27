@@ -23,3 +23,4 @@ Security Features TODO
 - [ ] Limit repeated login attempts from same source IP address / host
 - [ ] Password minimum requirements
 - [ ] Require re-login every 24 hours (by using JWT tokens expiration date)
+- [ ] Include GeoLocation information in the accessToken so we can block requests that suddenly come from the other side of the planet [details here](https://security.stackexchange.com/questions/185612/how-to-prevent-refreshing-a-stolen-access-token#185613)
