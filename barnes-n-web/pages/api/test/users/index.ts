@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectionPool from "../../../../lib/db";
+import connectionPool from "@/lib/db";
 import secureLog from "../../../../lib/SecureLog";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const query = "SELECT * FROM TEST_USER";
+  const query = "SELECT username FROM Users";
 
   try {
     connectionPool.query(
