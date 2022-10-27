@@ -45,7 +45,8 @@ const Login = () => {
 
         <Container fluid="sm" >
         <Row >
-          <Col ><p className="text-center" style={{background:'white'}}> Login </p></Col>
+          <Col ><p className="text-center" style={{background:'white'}}> Login </p>
+          </Col>
         </Row>
         <Row>
           <Col >New User? Sign Up</Col>
