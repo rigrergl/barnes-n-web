@@ -1,61 +1,26 @@
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Header from "./components/Header";
+import SearchForm from "./components/SearchForm";
+import Button from "./components/Button";
+import Results from "./components/Results";
 
 const Search = () => {
   return (
     <div className="page">
       <Header />
       <div className="searchBox">
-        <div className="row">
-          {/* Search Section */}
-          <div className="column">
-            <label className="searchText">Search</label>
-            <form>
-              <label>
-                <p>Location</p>
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="City"
-                />
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="Zip Code"
-                />
-              </label>
-              <label>
-                <p>Search Criteria</p>
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="Title"
-                />
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="ISBN 13"
-                />
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="ISBN 10"
-                />
-                <input
-                  className="searchInputBox"
-                  type="text"
-                  placeholder="Author"
-                />
-              </label>
-              {/* Submit Button */}
-              <input className="searchButton" type="submit" value="Search" />
-            </form>
-          </div>
-          {/* Results Section */}
-          <div className="column">
-            <label className="searchText">Results</label>
-            <div className="resultsBox"></div>
-          </div>
-        </div>
+        <Row>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Search</h3>
+            <SearchForm />
+            <Button color={"#FB8500"} text={"Search"} />
+          </Col>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Results</h3>
+            <Results />
+          </Col>
+        </Row>
       </div>
     </div>
   );
