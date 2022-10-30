@@ -25,3 +25,4 @@ Security Features TODO
 - [ ] Require re-login every 24 hours (by using JWT tokens expiration date)
 - [ ] Include GeoLocation information in the accessToken so we can block requests that suddenly come from the other side of the planet [details here](https://security.stackexchange.com/questions/185612/how-to-prevent-refreshing-a-stolen-access-token#185613)
 - [ ] Add protection against SQL Injection Attacks (Integrity)
+- [ ] Not using HTTP GET method
