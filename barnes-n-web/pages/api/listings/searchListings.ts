@@ -9,10 +9,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(405).end(`Method ${httpMethod} not allowed, only POST is allowed for security reasons`);
     }
 
-    const { bookTitle, isbn_10, isbn_13, author, longitude, latitude, maxDistanceInMiles } = req.body;
+    const { bookTitle, isbn_10, isbn_13, author, latitude, longitude, maxDistanceInMiles } = req.body;
     const maxDistanceInMeters = 1609.34 * maxDistanceInMiles;
 
-    const query = `CALL SearchListings('${bookTitle}', '${isbn_10}', '${isbn_13}', '${author}', 'POINT(${longitude} ${latitude})', ${maxDistanceInMeters})`
+    const query = `CALL SearchListings('${bookTitle}', '${isbn_10}', '${isbn_13}', '${author}', 'POINT(${latitude} ${longitude})', ${maxDistanceInMeters})`
 
     try {
         connectionPool.query(

@@ -1,9 +1,9 @@
 CREATE DATABASE IF NOT EXISTS DEV_DB;
 USE DEV_DB;
 
+DROP TABLE IF EXISTS Listings;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS GeoLocation;
-DROP TABLE IF EXISTS Listings;
 
 CREATE TABLE Users (
 	user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE Listings (
     image BLOB, 
     author VARCHAR(255),
     max_due_date DATE,
-    is_rented BOOLEAN NOT NULL,
+    is_rented BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (location_id) REFERENCES GeoLocation(location_id),
     FOREIGN KEY (owner_id) REFERENCES Users(user_id)
 );
