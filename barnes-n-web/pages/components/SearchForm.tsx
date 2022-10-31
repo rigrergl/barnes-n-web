@@ -3,6 +3,7 @@ import { FormLabel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "./Button";
 
 function SearchForm() {
   return (
@@ -42,6 +43,7 @@ function SearchForm() {
       <Form.Group className="mb-3" controlId="formGridIsbn10">
         <Form.Control style={{ width: "15vw" }} placeholder="ISBN 10" />
       </Form.Group>
+      <Button color={"#FB8500"} text={"Search"} />
     </Form>
   );
 }
