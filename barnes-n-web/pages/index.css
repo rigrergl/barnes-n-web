@@ -1,11 +1,11 @@
 .page {
-  width: 100vw;
-  height: 100vh;
+  width: 1440px;
+  height: 1024px;
 }
 
 .header {
   height: 100px;
-  width: 100vw;
+  width: 1440px;
   background: #4b6272;
   margin-top: 0%;
 }
@@ -42,22 +42,19 @@
 
 .searchBox {
   border-radius: 25px;
-  width: 80vw;
-  height: fit-content;
+  width: 980px;
+  height: 490px;
   background-color: #e5e5e5;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top: 50px;
+  position: absolute;
+  left: 245px;
+  top: 25%;
 }
 
 .resultsBox {
   border-radius: 10px;
+  width: 450px;
+  height: 400px;
   background-color: #c5c5c5;
-  width: 30vw;
-  height: 65vh;
   top: 25%;
 }
 
