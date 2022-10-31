@@ -7,7 +7,7 @@ const publicKey = Buffer.from(publicKeyBase64, 'base64').toString('utf8');
 var verifyToken = (token: any) => {
     try {
         const decoded = jwt.verify(token, publicKey);
-        console.log(decoded);
+        return decoded;
     } catch (err) {
         secureLog(err);
     }

@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         connectionPool.query(
             query,
-            (error: any, results: any, fields: any) => {
+            (error: any, _results: any, _fields: any) => {
                 if (error && error.code === "ER_DUP_ENTRY") {
                     return res.status(409).send({message: "Username already in use"});
                 } else if (error) {
