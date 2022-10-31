@@ -32,16 +32,6 @@
   clear: both;
 }
 
-.loginBox {
-  border-radius: 25px;
-  width: 490px;
-  height: 490px;
-  background-color: #e5e5e5;
-  position: absolute;
-  left: 490px;
-  top: 25%;
-}
-
 .searchBox {
   border-radius: 25px;
   width: 980px;
