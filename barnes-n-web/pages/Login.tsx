@@ -52,7 +52,7 @@ const Login = () => {
                   (<Alert className='alertToast' variant="success">
                       Successfully logged in!
                   </Alert>)}
-          </Row>
+          </Row>       
         <Row >
         
           <Col className='loginText'>
@@ -86,7 +86,7 @@ const Login = () => {
                 aria-describedby="passwordHelpBlock"
                 placeholder="Password"
             />
-            <a href='' style={{color:'black'}}>Forgot Password?</a> 
+            {/*<a href='' style={{color:'black'}}>Forgot Password?</a>*/} 
             <br/>
             {/*<Form.Text id="passwordHelpBlock" muted>
                 Your password must be 8-20 characters long, contain letters and numbers,
