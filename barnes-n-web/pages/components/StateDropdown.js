@@ -1,6 +1,9 @@
+import Form from 'react-bootstrap/Form';
+
 const StateDropdown = () => {
   return (
-    <select style={{width: '80px', height: '29px'}} name="stateDropdown" id="state">
+    <Form.Select aria-label="State">
+      <option>State</option>
         <option value="Alabama">AL</option>
         <option value="Alaska">AK</option>
         <option value="Arizona">AZ</option>
@@ -58,7 +61,7 @@ const StateDropdown = () => {
         <option value="West Virginia">WV</option>
         <option value="Wisconsin">WI</option>
         <option value="Wyoming">WY</option>
-    </select>
+    </Form.Select>
   )
 }
 

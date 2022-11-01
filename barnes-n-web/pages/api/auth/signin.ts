@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         connectionPool.query(
             query,
-            (error: any, results:any, fields: any) => {
+            (error: any, results:any, _fields: any) => {
                 if (error) {
                     throw error;
                 }

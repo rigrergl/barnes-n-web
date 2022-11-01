@@ -21,5 +21,8 @@ You will also need to have [Node](https://nodejs.org/en/) installed on your loca
 Security Features TODO
 - [ ] user HTTPS instead of HTTP for backend calls
 - [ ] Limit repeated login attempts from same source IP address / host
-- [ ] Password minimum requirements
+- [ ] Password minimum requirements (at least one digit, one letter, one punctuation symbol, one control character)
 - [ ] Require re-login every 24 hours (by using JWT tokens expiration date)
+- [ ] Include GeoLocation information in the accessToken so we can block requests that suddenly come from the other side of the planet [details here](https://security.stackexchange.com/questions/185612/how-to-prevent-refreshing-a-stolen-access-token#185613)
+- [ ] Add protection against SQL Injection Attacks (Integrity)
+- [ ] Not using HTTP GET method
