@@ -1,11 +1,9 @@
 .page {
-  width: 1440px;
   height: 1024px;
 }
 
 .header {
   height: 100px;
-  width: 1440px;
   background: #4b6272;
   margin-top: 0%;
 }
@@ -24,20 +22,14 @@
   width: 22%;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .headerRow:after {
   content: "";
   display: table;
   clear: both;
-}
-
-.loginBox {
-  border-radius: 25px;
-  width: 490px;
-  height: 490px;
-  background-color: #e5e5e5;
-  position: absolute;
-  left: 490px;
-  top: 25%;
 }
 
 .searchBox {
@@ -86,5 +78,4 @@
 
 body {
   background: #284b63;
-  width: 1440px;
 }
