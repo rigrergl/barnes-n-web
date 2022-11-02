@@ -10,7 +10,13 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL,
     hashedPassword VARCHAR(255) NOT NULL,
-    photo_id BLOB
+    fullname VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    optaddress VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    zipcode VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE GeoLocation (

@@ -18,14 +18,18 @@ const ResultsList = ({ results }: Props) => {
   return (
     <ListGroup>
       <ListGroupItem>
-        {results.map(({ title, author, isbn_10, isbn_13 }) => (
-          <Result
-            title={title}
-            author={author}
-            isbn_10={isbn_10}
-            isbn_13={isbn_13}
-          />
-        ))}
+        {results.map(
+          ({ title, author, isbn_10, isbn_13, listing_id, max_due_date }) => (
+            <Result
+              title={title}
+              author={author}
+              isbn_10={isbn_10}
+              isbn_13={isbn_13}
+              listing_id={listing_id}
+              max_due_date={max_due_date}
+            />
+          )
+        )}
       </ListGroupItem>
     </ListGroup>
   );
