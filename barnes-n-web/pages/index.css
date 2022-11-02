@@ -5,21 +5,17 @@
 .header {
   height: 100px;
   background: #4b6272;
-  margin-top: 0%;
 }
 
 .headerLogo {
-  width: 75px;
-  height: 75px;
-  float: left;
+  height: 100px;
+  min-width: 100px;
 }
 
 .headerLogoText {
-  position: absolute;
   font-size: 30px;
-  margin-left: 100px;
+  min-width: 180px;
   margin-top: 25px;
-  width: 22%;
 }
 
 .text-center {
