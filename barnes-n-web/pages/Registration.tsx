@@ -31,12 +31,10 @@ const Registration = () => {
   const backendUrl = publicRuntimeConfig.backendUrl;
 
   const signup = async () => {
-    console.log("U " + username + " P: " + password + " CP: " + confirmPassword
-        + " N: " + name + " PH: " + phone + " E: " + email + " S: " + street
-        + " O: " + optAddress + " C: " + city + " St: " + state + " Z: " + zipcode);
+    
     if(username != "" && password != "" && confirmPassword != ""
       && name != "" && phone != "" && email != "" && street != ""
-      && optAddress != "" && city != "" && state!= "" && zipcode != "")
+      && city != "" && state!= "" && zipcode != "")
     {
       if(password === confirmPassword)
       {
@@ -178,7 +176,6 @@ const Registration = () => {
       <Row>
         <Col className='registrationInputBox2 top2'>
           <Form.Control
-                required
                 onChange={(e) => setOptAddress(e.target.value)}
                 type="text"
                 id="inputOptional"
