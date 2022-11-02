@@ -1,43 +1,31 @@
 .page {
-  width: 1440px;
   height: 1024px;
 }
 
 .header {
   height: 100px;
-  width: 1440px;
   background: #4b6272;
-  margin-top: 0%;
 }
 
 .headerLogo {
-  width: 75px;
-  height: 75px;
-  float: left;
+  height: 100px;
+  min-width: 100px;
 }
 
 .headerLogoText {
-  position: absolute;
   font-size: 30px;
-  margin-left: 100px;
+  min-width: 180px;
   margin-top: 25px;
-  width: 22%;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .headerRow:after {
   content: "";
   display: table;
   clear: both;
-}
-
-.loginBox {
-  border-radius: 25px;
-  width: 490px;
-  height: 490px;
-  background-color: #e5e5e5;
-  position: absolute;
-  left: 490px;
-  top: 25%;
 }
 
 .searchBox {
@@ -86,5 +74,4 @@
 
 body {
   background: #284b63;
-  width: 1440px;
 }

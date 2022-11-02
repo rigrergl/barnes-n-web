@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
 import { Alert } from 'react-bootstrap';
+import React from 'react';
 
 const bcrypt = require("bcryptjs");
 
