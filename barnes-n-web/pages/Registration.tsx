@@ -22,9 +22,6 @@ const Registration = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
-
-
-  
   const [success, setSuccess] = useState(0);
 
   const [statusMessage, setStatusMessage] = useState("");
@@ -34,7 +31,7 @@ const Registration = () => {
   const backendUrl = publicRuntimeConfig.backendUrl;
 
   const signup = async () => {
-
+    
     if(username != "" && password != "" && confirmPassword != ""
       && name != "" && phone != "" && email != "" && street != ""
       && city != "" && state!= "" && zipcode != "")
