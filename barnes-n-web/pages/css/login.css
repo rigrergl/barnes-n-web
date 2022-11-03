@@ -1,3 +1,8 @@
+.registrationBox {
+  position: absolute;
+  top: 100%;
+}
+
 .loginBox2 {
   border-radius: 25px;
   background-color: #e5e5e5;
