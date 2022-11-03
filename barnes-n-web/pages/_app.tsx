@@ -5,6 +5,7 @@ import "./css/registration.css";
 import "./css/search.css";
 import "./css/login.css";
 import "./css/loanbooksubmission.css";
+import "./css/loanbooksubmission.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;

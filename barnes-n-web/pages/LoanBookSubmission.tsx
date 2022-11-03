@@ -133,7 +133,7 @@ const LoanBookSubmission = () => {
                     </FormCheck> */}
 
                     <Form.Check type="checkbox" id='checkBox' label="I agree that the information above is completely accurate" />
-                </Row>
+                </Row> 
 
                 <Row>
                     <Button
