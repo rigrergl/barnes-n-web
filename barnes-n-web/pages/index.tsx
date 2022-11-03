@@ -4,19 +4,21 @@ import Container from "react-bootstrap/Container";
 import React from 'react';
 import TempPages from "./components/TempPages";
 import Header from "./components/Header";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className="page">
+      {/* Header Component */}
       <Header />
-      <Container className="p-3">
 
-        <TempPages />
-        <ExampleComponent>
-          <h1>HelloWorld</h1>
-        </ExampleComponent>
+      <Container fluid="sm" className="registrationBox2">
+
+        
       </Container>
     </div>
+      
   );
 };
 
