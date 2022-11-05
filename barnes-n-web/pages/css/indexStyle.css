@@ -1,0 +1,32 @@
+.homepageTitle {
+  text-align: left;
+  font-size: 40px;
+  margin-top: 3%;
+  color:whitesmoke;
+}
+
+.homepageBodyTitle {
+  text-align: center;
+  font-size: 25px;
+  margin-top: 10%;
+  color:whitesmoke;
+}
+
+.homepageBody {
+  text-align: left;
+  font-size: 20px;
+  margin-top: 2%;
+  color:whitesmoke;
+}
+
+.submissionButton{
+  text-align: center;
+  font-size: 15;
+  width: 9%;
+  background: whitesmoke; 
+  border-radius: '30px';
+  border-color: black;
+  margin-top: 4%;
+  color:black
+ 
+}
