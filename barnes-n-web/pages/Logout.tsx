@@ -12,25 +12,18 @@ const Logout = () => {
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
   const [success, setSuccess] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
-  const [hasError, setHasError] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(null); //non null means we have gotten a response from the api
 
-  const logout = () => {
-    setSuccess(true);
-    setStatusMessage("You have logged out");
-  };
-
-  const logout2 = async () => {
-    const response = await fetch(backendUrl + "/", {
+  const logout = async () => {
+    const response = await fetch(backendUrl + "/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     });
 
     const data = await response.json();
-    setHasError(response.status !== 200);
+    setSuccess(response.ok);
     setStatusMessage(data.message);
   };
 
@@ -40,9 +33,9 @@ const Logout = () => {
 
       <Container fluid="sm" className="loginBox2">
         <Row className="toastRow">
-          {success && (
-            <Alert className="alertToast" variant="success">
-              Successfully logged out!
+          {statusMessage && (
+            <Alert className="alertToast" variant={success? "success" : "danger"}>
+              {statusMessage}
             </Alert>
           )}
         </Row>
