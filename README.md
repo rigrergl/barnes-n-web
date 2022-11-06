@@ -16,6 +16,7 @@ You will also need to have [Node](https://nodejs.org/en/) installed on your loca
 - [X] For the accessToken cookie, set SameSite to Strict to add some protection against cross-site request forgery attacks [CSRF](https://developer.mozilla.org/en-US/docs/Glossary/CSRF)
 - [X] For the accessToken cookie, set HttpOnly to true so that the token is only available to the server. This helps mitigate cross-site scripting attacks [XSS](https://developer.mozilla.org/en-US/docs/Web/Security/Types_of_attacks#cross-site_scripting_(xss))
 - [X] For the accessToken cookie, set Secure to true so that the cookie is only sent to the server with an encrypted request over the HTTPS protocol. This way the cookie is not sent over unsecured HTTP (exceot on localhost). This helps mitigate [man-in-the-middle](https://developer.mozilla.org/en-US/docs/Glossary/MitM) attackers from easily accessing the information in the token.
+- [X] Before retrieving profile information, which includes sensitive data like fullname and address, we verify the access token. Users only have access to their own profile information
 
 
 Security Features TODO
