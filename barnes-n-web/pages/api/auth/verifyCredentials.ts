@@ -3,6 +3,10 @@ import verifyToken from "@/lib/verifyToken";
 import getCookieByName from "@/lib/getCookieByName";
 import { TokenExpiredError } from "jsonwebtoken";
 
+/**
+ * This endpoint is for frontend to verify that a user is logged in and has a valid access token
+ */
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const cookie = req.headers.cookie || "";
     const accessToken = getCookieByName('accessToken', cookie);
@@ -16,7 +20,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const decodedToken = verifyToken(accessToken);
-        console.log(decodedToken);
         res.status(200).send({
             userId: decodedToken.user_id,
             loggedIn: true
