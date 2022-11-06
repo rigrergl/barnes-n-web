@@ -1,5 +1,5 @@
 import Header from "./components/Header";
-import { useState, createRef } from 'react'
+import { useState, useEffect } from 'react'
 import getConfig from 'next/config'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,9 +15,14 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
+
+  useEffect(() => { 
+    checksignin();
+  }, [] );
 
   const login = () => {
     fetch(backendUrl + "/auth/signin", {
@@ -40,8 +45,30 @@ const Login = () => {
     )
 }
 
+const checksignin = () => {
+  fetch(backendUrl + "/auth/verifyCredentials", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      }
+  }).then(
+      response => {
+          if (response.ok) {
+              setLoggedIn(true);
+              console.log(loggedIn);
+          } else {
+              // TODO
+          }
+      }
+  )
+}
+
+  
+
   return (
     <div className='page'>
+        
+
 
         {/* Header Component */}
         <Header />
@@ -95,8 +122,10 @@ const Login = () => {
           </Col>
         </Row>
         <Row>
+          
           <Col >
-            <Button className='submitButton' onClick={login} variant="primary">Login</Button>
+            {!loggedIn && (
+            <Button className='submitButton' onClick={login} variant="primary">Login</Button>)}
           </Col>
         </Row>
       </Container>

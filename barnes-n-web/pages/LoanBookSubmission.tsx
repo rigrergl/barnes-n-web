@@ -7,25 +7,64 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
 import { Alert, FormGroup } from 'react-bootstrap';
+import genMockCoordinates from '@/lib/genMockCoordinates';
 
 const bcrypt = require("bcryptjs");
 
 const LoanBookSubmission = () => {
-    const [loanerName, setLoanername] = useState("");
-    const [email, setEmail] = useState("");
-    const [bookName, setBookName] = useState("");
-    const [authorName, setAuthorName] = useState("");
-    const [ISBN10, setISBN10] = useState("");
-    const [ISBN13, setISBN13] = useState("");
-    const [price, setPrice] = useState("");
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [isbn10, setISBN10] = useState("");
+    const [isbn13, setISBN13] = useState("");
+    const [maxDueDate, setReturnBy] = useState("");
+    const [accept, setAccept] = useState(false);
     // const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
 
+    const [statusMessage, setStatusMessage] = useState("");
+    const [hasError, setHasError] = useState(false);
+
     //Please log in before submitting a page message maybe??
     //Don't allow to submit unless checkbox is clicked
+
+    const createListing = async () => {
+        if (
+          title != "" &&
+          author != "" &&
+          isbn10 != "" &&
+          isbn13 != "" &&
+          maxDueDate != ""
+        ) {
+            const  coords = genMockCoordinates();
+            const response = await fetch(backendUrl + "/listings/createListing", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: title,
+                isbn10: isbn10,
+                isbn13: isbn13,
+                author: author,
+                longitude: coords.longitude,
+                latitude: coords.latitude,
+                maxDistance: '50',
+                maxDueDate: maxDueDate,
+              }),
+            });
+    
+            const data = await response.json();
+            setHasError(response.status !== 200);
+            setStatusMessage(data.message);
+            setIsSubmitted(true);
+          }
+        else {
+          setStatusMessage("All Fields must be entered");
+        }
+    };
 
     return (
         <div className='page'>
@@ -36,6 +75,7 @@ const LoanBookSubmission = () => {
                 <Row className='toastRow'>
                     {isSubmitted &&
                         (<Alert className='alertToast' variant="success">
+                            {statusMessage}
                             Successfully submitted a book to be loaned out!
                         </Alert>)}
                 </Row>
@@ -52,45 +92,22 @@ const LoanBookSubmission = () => {
                     </Col>
                 </Row>
 
-                <Row className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputLoanerName"> </Form.Label>
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputTitle"></Form.Label>
                     <Form.Control
-                        onChange={(e) => setLoanername(e.target.value)}
+                        onChange={(e) => setTitle(e.target.value)}
                         type="text"
-                        id="inputLoanerName"
-                        placeholder="Enter your name"
+                        id="inputTitle"
+                        placeholder="Enter the book's title"
                     />
                 </Row>
 
                 <Row as={Row} className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputEmail"></Form.Label>
+                    <Form.Label htmlFor="inputAuthor"></Form.Label>
                     <Form.Control
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        id="inputEmail"
-                        placeholder="Enter your email"
-                    //aria-describedby="passwordHelpBlock"
-                    />
-                    {/* <Form.Text id="passwordHelpBlock" muted> We'll never share your email with anyone else.
-                </Form.Text> */}
-                </Row>
-
-                <Row as={Row} className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputBookName"></Form.Label>
-                    <Form.Control
-                        onChange={(e) => setBookName(e.target.value)}
+                        onChange={(e) => setAuthor(e.target.value)}
                         type="text"
-                        id="inputBookName"
-                        placeholder="Enter the book's name"
-                    />
-                </Row>
-
-                <Row as={Row} className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputAuthorName"></Form.Label>
-                    <Form.Control
-                        onChange={(e) => setAuthorName(e.target.value)}
-                        type="text"
-                        id="inputAuthorName"
+                        id="inputAuthor"
                         placeholder="Enter the author's name"
                     />
                 </Row>
@@ -116,31 +133,31 @@ const LoanBookSubmission = () => {
                 </Row>
 
                 <Row as={Row} className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputPrice"></Form.Label>
+                    <Form.Label htmlFor="inputReturnBy"></Form.Label>
                     <Form.Control
-                        onChange={(e) => setPrice(e.target.value)}
+                        onChange={(e) => setReturnBy(e.target.value)}
                         type="text"
-                        id="inputPrice"
-                        placeholder="Enter loaning price"
+                        id="inputReturnBy"
+                        placeholder="Enter Return By Date"
                     />
                 </Row>
 
-                <Row className="mx-auto mb-3" controlId="formBasicCheckbox">
+                <Row className="mx-auto mb-3" >
                     {/* <FormCheck>
                         <FormCheck.Input isInvalid type={radio} />
                         <FormCheck.Label>Allow us to contact you?</FormCheck.Label>
                         <Feedback type="invalid">Yo this is required</Feedback>
                     </FormCheck> */}
 
-                    <Form.Check type="checkbox" id='checkBox' label="I agree that the information above is completely accurate" />
+                    <Form.Check type="checkbox" id='checkBox' onChange={() => setAccept(!accept)} label="I agree that the information above is completely accurate" />
                 </Row> 
 
                 <Row>
-                    <Button
-                        className='submissionButton'
+                    {accept && (<Button
+                        className='submitButton'
                         name='submission'
-                        onClick={LoanBookSubmission}
-                        variant="primary">Submit</Button>
+                        onClick={createListing}
+                        variant="primary">Submit</Button>)}
                 </Row>
 
             </Container>
