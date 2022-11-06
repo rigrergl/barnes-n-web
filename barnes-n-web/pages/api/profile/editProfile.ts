@@ -1,28 +1,28 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import connectionPool from "@/lib/db";
 import getCookieByName from "@/lib/getCookieByName";
 import verifyToken from "@/lib/verifyToken";
-import connectionPool from "@/lib/db";
 import { TokenExpiredError } from "jsonwebtoken";
+import { NextApiRequest, NextApiResponse } from "next"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { userId } = req.body;
+    const { phone, email, street, optaddress, city, state, zipcode } = req.body;
     const cookie = req.headers.cookie || "";
     const accessToken = getCookieByName("accessToken", cookie);
     let decodedToken;
 
-    // validate input
     if (!userId) {
         return res.status(400).send({
             error: true,
-            message: "Missing userId parameter"
+            message: "Required parameter missing: userId"
         });
     }
 
-    // users can only see their own profile information
+    // users can only edit their own profile information
     if (!accessToken) {
         return res.status(401).send({
             error: true,
-            message: "Cannot access profile information because user is not logged in"
+            message: "Cannot edit profile information because user is not logged in"
         });
     }
 
@@ -43,36 +43,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
 
-    // at this point, we have authenticated user
-    const query = `SELECT username, fullname, phone, email, street, optaddress, city, state, zipcode FROM Users WHERE user_id=${userId}`;
-
-
-    connectionPool.query(query, (error: any, results: any, _fields: any) => {
+    // at this point, we have authenticated the user
+    const query = `CALL EditProfile(${userId}, '${phone}', '${email}', '${street}', '${optaddress}', '${city}', '${state}', '${zipcode}')`;
+    connectionPool.query(query, (error: any, results: any, fields: any) => {
         if (error) {
             return res.status(500).send({
                 error: true,
                 message: error.message
             });
-        } else if (results.length === 0) {
-            return res.status(401).send({
-                error: true,
-                message: "User does not exists"
-            });
-        }
+        } 
 
-        const { username, fullname, phone, email, street, optaddress, city, state, zipcode } = results[0];
-
-        res.status(200).send({
+        return res.status(200).send({
             error: false,
-            username: username,
-            fullname: fullname,
-            phone: phone,
-            email: email,
-            street: street,
-            optaddress: optaddress,
-            city: city,
-            state: state,
-            zipcode: zipcode
+            message: "Profile successfully edited"
         });
     });
 }
