@@ -18,8 +18,9 @@ BEGIN
 		SELECT location_id, ST_Distance_Sphere(position, @userLocation) as distance_m FROM GeoLocation HAVING distance_m <= maxDistanceInMeters;
 
 	SELECT * FROM Listings l
-    WHERE (l.title = bookTitle OR l.isbn_10 = isbn_10 OR l.isbn_13 = isbn_13 OR l.author = author) 
-    AND l.location_id IN (SELECT location_id FROM locationsInRange);
+    WHERE (l.title = bookTitle OR l.isbn_10 = isbn_10 OR l.isbn_13 = isbn_13 OR l.author = author)
+	AND l.rented_by IS NULL
+	AND l.location_id IN (SELECT location_id FROM locationsInRange);
 END //
 
 DELIMITER ;
