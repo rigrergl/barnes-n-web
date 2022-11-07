@@ -18,7 +18,6 @@ const LoanBookSubmission = () => {
     const [isbn13, setISBN13] = useState("");
     const [maxDueDate, setReturnBy] = useState("");
     const [accept, setAccept] = useState(false);
-    // const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const { publicRuntimeConfig } = getConfig();
@@ -26,9 +25,6 @@ const LoanBookSubmission = () => {
 
     const [statusMessage, setStatusMessage] = useState("");
     const [hasError, setHasError] = useState(false);
-
-    //Please log in before submitting a page message maybe??
-    //Don't allow to submit unless checkbox is clicked
 
     const createListing = async () => {
         if (
@@ -143,12 +139,6 @@ const LoanBookSubmission = () => {
                 </Row>
 
                 <Row className="mx-auto mb-3" >
-                    {/* <FormCheck>
-                        <FormCheck.Input isInvalid type={radio} />
-                        <FormCheck.Label>Allow us to contact you?</FormCheck.Label>
-                        <Feedback type="invalid">Yo this is required</Feedback>
-                    </FormCheck> */}
-
                     <Form.Check type="checkbox" id='checkBox' onChange={() => setAccept(!accept)} label="I agree that the information above is completely accurate" />
                 </Row> 
 

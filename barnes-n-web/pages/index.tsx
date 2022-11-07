@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         {/* move the button to the right. */}
         <Row>
           <Button
-            className='submissionButton'
+            className='GetStarted'
             name='getStarted'
             onClick={Login}
             variant="primary"> Get Started </Button>
@@ -46,16 +46,29 @@ const Home: NextPage = () => {
         </Row>
 
         {/* this will be better lmao */}
-        <Row >
+        {/* <Row >
           <Col className='homepageBody'>
-          Create an account.              Search for the book you're looking for.            Borrow the book! <br />
+            Create an account.              Search for the book you're looking for.            Borrow the book! <br />
 
             It's that easy.
           </Col>
+        </Row> */}
+        <Row>
+          <div className="circle">
+            <p className="textInCircle">Create an account <br/> or log in</p>
+          </div>
+
+          <div className="circle2">
+            <p className="textInCircle">Search for the book you're looking for</p>
+          </div>
+
+          <div className="circle2">
+            <p className="textInCircle">Borrow the book from our amazing loaners!</p>
+          </div>
+
         </Row>
-
-
       </Container>
+
     </div>
 
   );
