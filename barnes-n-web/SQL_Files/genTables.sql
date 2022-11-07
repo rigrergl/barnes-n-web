@@ -35,8 +35,9 @@ CREATE TABLE Listings (
     image BLOB, 
     author VARCHAR(255),
     max_due_date DATE,
-    is_rented BOOLEAN NOT NULL DEFAULT FALSE,
+    rented_by INT, 
     FOREIGN KEY (location_id) REFERENCES GeoLocation(location_id),
-    FOREIGN KEY (owner_id) REFERENCES Users(user_id)
+    FOREIGN KEY (owner_id) REFERENCES Users(user_id),
+    FOREIGN KEY (rented_by) REFERENCES Users(user_id)
 );
 
