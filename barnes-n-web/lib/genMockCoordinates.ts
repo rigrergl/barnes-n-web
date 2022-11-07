@@ -7,13 +7,13 @@ export default () => {
     const latitude = Math.random() * 180 - 90;
     const longitude = Math.random() * 360 - 180;
 
-    console.log(latitude);
-    console.log(longitude);
-    console.log("  ")
+    // truncating precision
+    const latitudeString = latitude.toFixed(6);
+    const longitudeString = longitude.toFixed(6);
 
     const coordinate = {
-        latitude: latitude,
-        longitude: longitude
+        latitudeString: latitudeString,
+        longitudeString: longitudeString
     }
 
     return coordinate;
