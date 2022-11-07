@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // At this point, user is authenticated
     const query = `SELECT * FROM Listings WHERE owner_id=${decodedToken.user_id}`;
     
-    connectionPool.query(query, (error: any, results: any, fields: any) => {
+    connectionPool.query(query, (error: any, results: any, _fields: any) => {
         if (error) {
             return res.status(500).send({
                 error: true,
