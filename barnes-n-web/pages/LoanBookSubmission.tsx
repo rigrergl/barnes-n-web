@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
 import { Alert, FormGroup } from 'react-bootstrap';
-import genMockCoordinates from '@/lib/genMockCoordinates';
 
 const bcrypt = require("bcryptjs");
 
@@ -28,39 +27,38 @@ const LoanBookSubmission = () => {
 
     const createListing = async () => {
         if (
-          title != "" &&
-          author != "" &&
-          isbn10 != "" &&
-          isbn13 != "" &&
-          maxDueDate != ""
+            title != "" &&
+            author != "" &&
+            isbn10 != "" &&
+            isbn13 != "" &&
+            maxDueDate != ""
         ) {
-            const  coords = genMockCoordinates();
             const response = await fetch(backendUrl + "/listings/createListing", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                title: title,
-                isbn10: isbn10,
-                isbn13: isbn13,
-                author: author,
-                latitude: coords.latitudeString,
-                longitude: coords.longitudeString,
-                maxDistance: '50',
-                maxDueDate: maxDueDate,
-              }),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title,
+                    isbn10: isbn10,
+                    isbn13: isbn13,
+                    author: author,
+                    maxDistance: '50',
+                    maxDueDate: maxDueDate,
+                }),
             });
-    
+
             const data = await response.json();
             setHasError(response.status !== 200);
             setStatusMessage(data.message);
             setIsSubmitted(true);
-          }
+        }
         else {
-          setStatusMessage("All Fields must be entered");
+            setStatusMessage("All Fields must be entered");
         }
     };
+
+
 
     return (
         <div className='page'>
@@ -132,7 +130,7 @@ const LoanBookSubmission = () => {
                     <Form.Label htmlFor="inputReturnBy"></Form.Label>
                     <Form.Control
                         onChange={(e) => setReturnBy(e.target.value)}
-                        type="text"
+                        type="Calender"
                         id="inputReturnBy"
                         placeholder="Enter Return By Date"
                     />
@@ -140,7 +138,7 @@ const LoanBookSubmission = () => {
 
                 <Row className="mx-auto mb-3" >
                     <Form.Check type="checkbox" id='checkBox' onChange={() => setAccept(!accept)} label="I agree that the information above is completely accurate" />
-                </Row> 
+                </Row>
 
                 <Row>
                     {accept && (<Button
