@@ -1,5 +1,12 @@
+import { useState, useEffect } from 'react'
+import getConfig from 'next/config'
+
 const navigateToLogin = () => {
   window.location = "/Login";
+};
+
+const navigateToLoanBook = () => {
+  window.location = "/LoanBookSubmission";
 };
 
 const navigateToHome = () => {
@@ -27,6 +34,33 @@ const navigateToLogout = () => {
 };
 
 const Navigate = () => {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const { publicRuntimeConfig } = getConfig();
+  const backendUrl = publicRuntimeConfig.backendUrl;
+
+  const checksignin = () => {
+    fetch(backendUrl + "/auth/verifyCredentials", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(
+        response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log(loggedIn);
+            } else {
+                // TODO
+            }
+        }
+    )
+  }
+
+  useEffect(() => { 
+    checksignin();
+  }, [] );
+
   return (
     <center style={{ marginTop: "35px", height: "50px" }}>
       <button
@@ -46,7 +80,7 @@ const Navigate = () => {
         Home
       </button>
 
-      <button
+      {loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -62,9 +96,9 @@ const Navigate = () => {
         onClick={navigateToProfile}
       >
         Profile
-      </button>
+      </button>)}
 
-      <button
+      {loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -80,9 +114,27 @@ const Navigate = () => {
         onClick={navigateToSearch}
       >
         Search
-      </button>
+      </button>)}
 
-      <button
+      {loggedIn && (<button
+        style={{
+          textAlign: "center",
+          fontSize: "15px",
+          width: "12%",
+          borderRadius: "10px",
+          background: "white",
+          borderColor: "black",
+          marginLeft: "5px",
+          minWidth: "65px",
+          maxHeight: "100%",
+          minHeight: "80%",
+        }}
+        onClick={navigateToLoanBook}
+      >
+        Loan Book
+      </button>)}
+
+      {loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -98,9 +150,9 @@ const Navigate = () => {
         onClick={navigateToHistory}
       >
         History
-      </button>
+      </button>)}
 
-      <button
+      {!loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -116,9 +168,9 @@ const Navigate = () => {
         onClick={navigateToLogin}
       >
         Login
-      </button>
+      </button>)}
 
-      <button
+      {!loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -134,9 +186,9 @@ const Navigate = () => {
         onClick={navigateToRegistration}
       >
         Register
-      </button>
+      </button>)}
 
-      <button
+      {loggedIn && (<button
         style={{
           textAlign: "center",
           fontSize: "15px",
@@ -152,7 +204,7 @@ const Navigate = () => {
         onClick={navigateToLogout}
       >
         Logout
-      </button>
+      </button>)}
     </center>
   );
 };
