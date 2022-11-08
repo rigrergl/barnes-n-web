@@ -29,14 +29,14 @@ CREATE TABLE Listings (
 	listing_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     owner_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
-    location_id INT NOT NULL,
+    -- location_id INT NOT NULL,
     isbn_10 VARCHAR(13), 
     isbn_13 VARCHAR(17),
     image BLOB, 
     author VARCHAR(255),
     max_due_date DATE,
     rented_by INT, 
-    FOREIGN KEY (location_id) REFERENCES GeoLocation(location_id),
+    -- FOREIGN KEY (location_id) REFERENCES GeoLocation(location_id),
     FOREIGN KEY (owner_id) REFERENCES Users(user_id),
     FOREIGN KEY (rented_by) REFERENCES Users(user_id)
 );
