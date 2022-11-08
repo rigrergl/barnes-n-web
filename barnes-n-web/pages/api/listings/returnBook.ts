@@ -2,7 +2,7 @@ import connectionPool from '@/lib/db';
 import getCookieByName from '@/lib/getCookieByName';
 import verifyToken from '@/lib/verifyToken';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { listingId } = req.body;
@@ -18,11 +18,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
     }
 
-    // this action should only be allowed for a logged in user
+    // users can only do this action if they are logged in 
     if (!accessToken) {
         return res.status(401).send({
             error: true,
-            message: "Cannot checkout book because you are not logged in"
+            message: "Cannot return a book because you are not logged in"
         });
     }
 
@@ -43,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // at this point, originator is authenticated
-    const query = `UPDATE Listings SET rented_by=${decodedToken.user_id} WHERE listing_id=${listingId}`;
+    const query = `UPDATE Listings SET rented_by=NULL WHERE listing_id=${listingId}`;
 
     connectionPool.query(query, (error: any, _results: any, _fields: any) => {
         if (error) {
@@ -54,9 +54,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
             return res.status(200).send({
                 error: false,
-                message: "Successfully checked out book"
+                message: "Successfully returned book"
             });
         }
     });
-
 }
