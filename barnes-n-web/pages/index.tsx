@@ -1,12 +1,9 @@
 import type { NextPage } from "next";
-import ExampleComponent from "./components/ExampleComponent";
 import Container from "react-bootstrap/Container";
 import React from 'react';
-import TempPages from "./components/TempPages";
 import Header from "./components/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Login from "./Login";
 import { Button } from "react-bootstrap";
 
 
