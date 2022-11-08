@@ -1,4 +1,5 @@
-import { useState, createRef } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import Header from "./components/Header";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -18,12 +19,34 @@ const LoanBookSubmission = () => {
     const [maxDueDate, setReturnBy] = useState("");
     const [accept, setAccept] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
 
     const [statusMessage, setStatusMessage] = useState("");
     const [hasError, setHasError] = useState(false);
+
+    useEffect(() => { 
+        checksignin();
+      }, [] );
+
+      const checksignin = () => {
+        fetch(backendUrl + "/auth/verifyCredentials", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(
+            response => {
+                if (response.ok) {
+                    setLoggedIn(true);
+                } else {
+                    // TODO
+                }
+            }
+        )
+      }
 
     const createListing = async () => {
         if (
@@ -80,13 +103,13 @@ const LoanBookSubmission = () => {
                     </Col>
                 </Row>
 
-                <Row >
+                {loggedIn && (<Row >
                     <Col className='submissionSmallText'>
                         Ready to loan your book? - Please enter all necessary information
                     </Col>
-                </Row>
+                </Row>)}
 
-                <Row as={Row} className="mx-auto mb-3">
+                {loggedIn && (<Row as={Row} className="mx-auto mb-3">
                     <Form.Label htmlFor="inputTitle"></Form.Label>
                     <Form.Control
                         onChange={(e) => setTitle(e.target.value)}
@@ -94,9 +117,9 @@ const LoanBookSubmission = () => {
                         id="inputTitle"
                         placeholder="Enter the book's title"
                     />
-                </Row>
+                </Row>)}
 
-                <Row as={Row} className="mx-auto mb-3">
+                {loggedIn && (<Row as={Row} className="mx-auto mb-3">
                     <Form.Label htmlFor="inputAuthor"></Form.Label>
                     <Form.Control
                         onChange={(e) => setAuthor(e.target.value)}
@@ -104,9 +127,9 @@ const LoanBookSubmission = () => {
                         id="inputAuthor"
                         placeholder="Enter the author's name"
                     />
-                </Row>
+                </Row>)}
 
-                <Row as={Row} className="mx-auto mb-3">
+                {loggedIn && (<Row as={Row} className="mx-auto mb-3">
                     <Form.Label htmlFor="inputISBN10"></Form.Label>
                     <Form.Control
                         onChange={(e) => setISBN10(e.target.value)}
@@ -114,9 +137,9 @@ const LoanBookSubmission = () => {
                         id="inputISBN10"
                         placeholder="Enter ISBN 10"
                     />
-                </Row>
+                </Row>)}
 
-                <Row as={Row} className="mx-auto mb-3">
+                {loggedIn && (<Row as={Row} className="mx-auto mb-3">
                     <Form.Label htmlFor="inputISBN13"></Form.Label>
                     <Form.Control
                         onChange={(e) => setISBN13(e.target.value)}
@@ -124,29 +147,37 @@ const LoanBookSubmission = () => {
                         id="inputISBN13"
                         placeholder="Enter ISBN 13"
                     />
-                </Row>
+                </Row>)}
 
-                <Row as={Row} className="mx-auto mb-3">
-                    <Form.Label htmlFor="inputReturnBy"></Form.Label>
+                {loggedIn && (<Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputReturnBy"> Return Date </Form.Label>
                     <Form.Control
                         onChange={(e) => setReturnBy(e.target.value)}
                         type="Calender"
                         id="inputReturnBy"
-                        placeholder="Enter Return By Date"
+                        //placeholder="Enter Return Date as mm/dd/yyyy"
+                        placeholder = "mm/dd/yyy"
                     />
-                </Row>
+                </Row>)}
 
-                <Row className="mx-auto mb-3" >
+                {loggedIn && (<Row className="mx-auto mb-3" >
                     <Form.Check type="checkbox" id='checkBox' onChange={() => setAccept(!accept)} label="I agree that the information above is completely accurate" />
-                </Row>
+                </Row>)}
 
-                <Row>
+                {loggedIn && (<Row>
                     {accept && (<Button
                         className='submitButton'
                         name='submission'
                         onClick={createListing}
                         variant="primary">Submit</Button>)}
-                </Row>
+                </Row>)}
+
+                {!loggedIn && (<Row>
+                    <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+                </Row>)}
 
             </Container>
         </div>

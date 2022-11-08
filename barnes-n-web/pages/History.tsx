@@ -1,16 +1,8 @@
 import Header from "./components/Header";
 import { useState, createRef } from 'react'
 import getConfig from 'next/config'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Alert } from 'react-bootstrap';
-
-
-
-
+//import type { Listing } from "./Result";
+//import Result from "./Result";
 
 
 const History = () => {
@@ -41,6 +33,18 @@ const History = () => {
     return (
         <div className='page'>
             <Header />
+
+        
+
+
+
+
+
+
+
+
+
+
         </div>
     )
 }

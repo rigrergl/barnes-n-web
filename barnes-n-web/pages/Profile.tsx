@@ -1,14 +1,12 @@
 import Header from "./components/Header";
-import { useState, createRef } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import getConfig from 'next/config'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { Alert } from 'react-bootstrap';
 import NavigateEdit from "./components/NavigateEdit";
-import StateDropdown from "./components/StateDropdown"
 
 
 const Profile = () => {
@@ -28,6 +26,29 @@ const Profile = () => {
 
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => { 
+    checksignin();
+  }, [] );
+
+  const checksignin = () => {
+    fetch(backendUrl + "/auth/verifyCredentials", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(
+        response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log(loggedIn);
+            } else {
+                // TODO
+            }
+        }
+    )
+  }
 
   const getprofileinfo = async () => {
     
@@ -56,12 +77,12 @@ const Profile = () => {
 
       <Container fluid="sm" className='profileBox'>
 
-        <Row className='toastRow'>
+      {loggedIn && (<Row className='toastRow'>
         {statusMessage &&
                   (<Alert className='alertToast' variant={hasError? "danger" : "success"}>
                       {statusMessage}
                   </Alert>)}
-        </Row> 
+        </Row>)}
 
       <Row >
         <Col className='registrationText'>
@@ -69,65 +90,73 @@ const Profile = () => {
         </Col>
       </Row>
 
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
             Username: {username}
         </Col>
-      </Row>
+      </Row>)}
         
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
         Name: {name}
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
         Phone: {phone}
 
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
         Email: {email}
 
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
         Street: {street}
 
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row>
+      {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
         Optional: {optAddress}
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row className='registrationCityInputBox top2'>
+      {loggedIn && (<Row className='registrationCityInputBox top2'>
         <Col >
         City: {city}
         </Col>
-        </Row>
-        <Row className='registrationCityInputBox top2'>
+      </Row>)}
+
+      {loggedIn && (<Row className='registrationCityInputBox top2'>
         <Col >
         State: {state}
         </Col>
-      </Row>
+      </Row>)}
 
-      <Row className='registrationCityInputBox top2'>
+      {loggedIn && (<Row className='registrationCityInputBox top2'>
         <Col >
         Zipcode: {zipcode}
         </Col>
-      </Row>
+      </Row>)}
 
       <Row>
         <Col >
-          <NavigateEdit />
+        {loggedIn && (<NavigateEdit />)}
+
+        {!loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+          </Col>)}
         </Col>
       </Row>
     </Container>
