@@ -13,7 +13,7 @@ const EditProfile = () => {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [street, setStreet] = useState("");
-    const [optAddress, setOptAddress] = useState("");
+    const [optaddress, setOptAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
@@ -28,7 +28,35 @@ const EditProfile = () => {
 
     useEffect(() => { 
       checksignin();
+      getprofileinfo();
     }, [] );
+
+    const getprofileinfo = async () => {
+    
+      const response = await fetch(backendUrl + "/profile/getProfileInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      const data = await response.json();
+
+      if(response.ok)
+      {
+        setPhone(data.phone);
+        setEmail(data.email);
+        setStreet(data.street);
+        setOptAddress(data.optaddress);
+        setCity(data.city);
+        setState(data.state);
+        setZipcode(data.zipcode);
+      }
+      else
+      {
+        setStatusMessage(data.message);
+      }
+      
+    };
 
     const checksignin = () => {
       fetch(backendUrl + "/auth/verifyCredentials", {
@@ -48,23 +76,39 @@ const EditProfile = () => {
       )
     }
 
-    const updateprofile = async () => {
-        const response = await fetch(backendUrl + "/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-
-            })
+    const updateProfile = async () => {
+      if(phone != "" &&
+      email != "" &&
+      street != "" &&
+      city != "" &&
+      state != "" &&
+      zipcode != "")
+      {
+        const response = await fetch(backendUrl + "/profile/editProfile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phone, 
+            email: email, 
+            street: street, 
+            optaddress: optaddress, 
+            city: city, 
+            state: state, 
+            zipcode: zipcode,
+          }),
         });
-        
 
         const data = await response.json();
         setHasError(response.status !== 200);
         setStatusMessage(data.message);
     }
-
+    else
+    {
+      setStatusMessage("Value changed cannot be empty, refresh page if needed");
+    }
+  }
 
     return (
         <div className='page'>
@@ -220,7 +264,7 @@ const EditProfile = () => {
     
           <Row>
           {loggedIn && (<Col >
-              <Button className='submitButton' onClick={updateprofile} variant="primary">Update</Button>
+              <Button className='submitButton' onClick={updateProfile} variant="primary">Update</Button>
             </Col>)}
 
           {!loggedIn && (<Col className='top2'>
