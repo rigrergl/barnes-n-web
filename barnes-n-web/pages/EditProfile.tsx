@@ -1,5 +1,6 @@
 import Header from "./components/Header";
-import { useState, createRef } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import getConfig from 'next/config'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -23,6 +24,29 @@ const EditProfile = () => {
 
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => { 
+      checksignin();
+    }, [] );
+
+    const checksignin = () => {
+      fetch(backendUrl + "/auth/verifyCredentials", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          }
+      }).then(
+          response => {
+              if (response.ok) {
+                  setLoggedIn(true);
+                  console.log(loggedIn);
+              } else {
+                  // TODO
+              }
+          }
+      )
+    }
 
     const updateprofile = async () => {
         const response = await fetch(backendUrl + "/", {
@@ -64,50 +88,50 @@ const EditProfile = () => {
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setPhone(e.target.value)}
                     type="text"
                     id="inputPhone"
                     placeholder="Phone Number"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setEmail(e.target.value)}
                     type="text"
                     id="inputEmail"
                     placeholder="Email"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setStreet(e.target.value)}
                     type="text"
                     id="inputStreet"
                     placeholder="Street Address"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setOptAddress(e.target.value)}
                     type="text"
                     id="inputOptional"
                     placeholder="Optional Address (Apt., PO, Etc.)"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
-          <Row className='registrationCityInputBox top2'>
+          {loggedIn && (<Row className='registrationCityInputBox top2'>
             <Col xs={8}>
               <Form.Control
                     onChange={(e) => setCity(e.target.value)}
@@ -181,23 +205,30 @@ const EditProfile = () => {
                 <option value="Wyoming">WY</option>
           </Form.Select>
             </Col>
-          </Row>
+          </Row>)}
     
           <Row className='registrationCityInputBox top2'>
-            <Col xs={8}>
+          {loggedIn && (<Col xs={8}>
               <Form.Control
                     onChange={(e) => setZipcode(e.target.value)}
                     type="text"
                     id="inputZipcode"
                     placeholder="Zipcode"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col >
+          {loggedIn && (<Col >
               <Button className='submitButton' onClick={updateprofile} variant="primary">Update</Button>
-            </Col>
+            </Col>)}
+
+          {!loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+          </Col>)}
           </Row>
         </Container>
     
