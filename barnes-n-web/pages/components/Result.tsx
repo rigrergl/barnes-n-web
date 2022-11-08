@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Alert } from "react-bootstrap";
+import getConfig from "next/config";
 
 export type Listing = {
   listing_id?: string;
@@ -34,6 +35,8 @@ const Result = (props: Props) => {
   const [statusMessage, setStatusMessage] = useState("");
   const [hasError, setHasError] = useState(false);
   const [canCheckOut, setCanCheckOut] = useState(true);
+  const { publicRuntimeConfig } = getConfig();
+  const backendUrl = publicRuntimeConfig.backendUrl;
 
   const finishCheckout = () => {
     console.log("DD: " + props.max_due_date);
@@ -42,15 +45,32 @@ const Result = (props: Props) => {
     setSuccess(true);
   };
 
+  const checkOutBook = () => {
+    finishCheckout();
+    fetch(backendUrl + "/listings/checkoutBook", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        listingId: props.listing_id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("Success");
+      });
+  };
+
   if (!checkoutBook) {
     return (
-      <Card>
+      <Card className="searchResults">
         <Card.Header>{props.title}</Card.Header>
         <Card.Body>
           <Card.Text>Author: {props.author}</Card.Text>
           <Card.Text>ISBN 10: {props.isbn_10}</Card.Text>
           <Card.Text>ISBN 13: {props.isbn_13}</Card.Text>
-
+          <Card.Text>Due Date: {props.max_due_date}</Card.Text>
           <Button
             className="submitButton"
             onClick={() => setCheckoutBook(true)}
@@ -112,7 +132,7 @@ const Result = (props: Props) => {
             {canCheckOut && (
               <Button
                 className="checkoutButton"
-                onClick={finishCheckout}
+                onClick={checkOutBook}
                 variant="primary"
               >
                 Checkout

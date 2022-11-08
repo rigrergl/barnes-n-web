@@ -97,7 +97,7 @@ const Search = () => {
           </Col>
           <Col>
             <h3 style={{ textAlign: "center" }}>Results</h3>
-            <Row style={{ backgroundColor: "#C5C5C5" }}>
+            <Row>
               <ResultsList results={listings} />
             </Row>
           </Col>
