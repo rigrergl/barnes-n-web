@@ -7,19 +7,21 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Alert } from 'react-bootstrap';
 import NavigateEdit from "./components/NavigateEdit";
+import { setuid } from "process";
 
 
 const Profile = () => {
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const [fullname, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [street, setStreet] = useState("");
-  const [optAddress, setOptAddress] = useState("");
+  const [optaddress, setOptAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [success, setSuccess] = useState(0);
+  const [userID, setUserID] = useState("");
 
   const [statusMessage, setStatusMessage] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -30,6 +32,7 @@ const Profile = () => {
 
   useEffect(() => { 
     checksignin();
+    getprofileinfo();
   }, [] );
 
   const checksignin = () => {
@@ -43,6 +46,7 @@ const Profile = () => {
             if (response.ok) {
                 setLoggedIn(true);
                 console.log(loggedIn);
+                
             } else {
                 // TODO
             }
@@ -52,22 +56,31 @@ const Profile = () => {
 
   const getprofileinfo = async () => {
     
-
-        const response = await fetch(backendUrl + "/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-
-            })
-        });
-        
-
-        const data = await response.json();
-        setHasError(response.status !== 200);
-        setStatusMessage(data.message);
-}
+    const response = await fetch(backendUrl + "/profile/getProfileInfo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    const data = await response.json();
+    if(response.ok)
+    {
+      setUsername(data.username);
+      setName(data.fullname);
+      setPhone(data.phone);
+      setEmail(data.email);
+      setStreet(data.street);
+      setOptAddress(data.optaddress);
+      setCity(data.city);
+      setState(data.state);
+      setZipcode(data.zipcode);
+    }
+    else
+    {
+      setStatusMessage(data.message);
+    }
+    
+  };
 
   return (
     <div className='page'>
@@ -98,7 +111,7 @@ const Profile = () => {
         
       {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
-        Name: {name}
+        Name: {fullname}
         </Col>
       </Row>)}
 
@@ -125,7 +138,7 @@ const Profile = () => {
 
       {loggedIn && (<Row>
         <Col className='registrationInputBox2 top2'>
-        Optional: {optAddress}
+        Optional: {optaddress}
         </Col>
       </Row>)}
 
