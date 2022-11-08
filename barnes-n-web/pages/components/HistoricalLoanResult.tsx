@@ -1,5 +1,5 @@
 import Card from "react-bootstrap/Card";
-import { useState, createRef } from "react";
+import { useState, useEffect } from "react";
 import getConfig from "next/config";
 
 export type HistoricalLoanListing = {
@@ -25,13 +25,18 @@ type Props = {
 };
 
 const HistoricalLoanResult = (props: Props) => {
-  const [checkInBook, setCheckInBook] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
-  const [hasError, setHasError] = useState(false);
-  const [canCheckIn, setCanCheckIn] = useState(true);
   const { publicRuntimeConfig } = getConfig();
-  const backendUrl = publicRuntimeConfig.backendUrl;
+  const [currentlyLoaning, setCurrentlyLoaning] = useState(false);
+
+  useEffect(() => {
+    checkLoanedBy();
+  }, []);
+
+  const checkLoanedBy = () => {
+    if (props.rented_by != null || props.rented_by != "") {
+      setCurrentlyLoaning(true);
+    }
+  };
 
   return (
     <Card className="searchResults">
@@ -41,7 +46,8 @@ const HistoricalLoanResult = (props: Props) => {
         <Card.Text>ISBN 10: {props.isbn_10}</Card.Text>
         <Card.Text>ISBN 13: {props.isbn_13}</Card.Text>
         <Card.Text>Due Date: {props.max_due_date}</Card.Text>
-        <Card.Text>Rented By: {props.rented_by}</Card.Text>
+        {currentlyLoaning && <Card.Text>Currently Loaning: Yes</Card.Text>}
+        {!currentlyLoaning && <Card.Text>Currently Loaning: No</Card.Text>}
       </Card.Body>
     </Card>
   );

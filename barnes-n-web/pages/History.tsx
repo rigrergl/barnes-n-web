@@ -22,8 +22,6 @@ const History = () => {
   const [loanListings, setLoanListings] = useState<HistoricalLoanListing[]>();
 
   useEffect(() => {
-    //Const call here :D
-    //Ex: getCheckoutHistory();
     getCheckoutHistory();
     getLoanHistory();
   }, []);
@@ -64,7 +62,17 @@ const History = () => {
       <Container fluid="sm" className="historyBox">
         <Row>
           <Col className="submissionText">History</Col>
-          <HistoricalCheckOutList results={checkoutListings} />
+        </Row>
+
+        <Row>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Check Outs</h3>
+            <HistoricalCheckOutList results={checkoutListings} />
+          </Col>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Loans</h3>
+            <HistoricalLoanList results={loanListings} />
+          </Col>
         </Row>
       </Container>
     </div>

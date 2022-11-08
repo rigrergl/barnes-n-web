@@ -49,6 +49,28 @@ const HistoricalCheckOutResult = (props: Props) => {
     }
   };
 
+  const checkIn = async () => {
+    const response = await fetch(backendUrl + "/listings/returnBook", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        listingId: props.listing_id,
+      }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setCanCheckIn(false);
+      setCurrentlyRenting(false);
+      setCheckInBook(false);
+      setSuccess(true);
+    } else {
+      setStatusMessage(data.message);
+      setSuccess(true);
+    }
+  };
+
   const finishCheckIn = () => {
     console.log("DD: " + props.max_due_date);
     setCanCheckIn(false);
@@ -69,13 +91,15 @@ const HistoricalCheckOutResult = (props: Props) => {
           {currentlyRenting && <Card.Text>Currently Renting: Yes</Card.Text>}
           {!currentlyRenting && <Card.Text>Currently Renting: No</Card.Text>}
 
-          <Button
-            className="submitButton"
-            onClick={() => setCheckInBook(true)}
-            variant="primary"
-          >
-            Checkin
-          </Button>
+          {canCheckIn && (
+            <Button
+              className="submitButton"
+              onClick={() => setCheckInBook(true)}
+              variant="primary"
+            >
+              Checkin
+            </Button>
+          )}
         </Card.Body>
       </Card>
     );
@@ -130,17 +154,17 @@ const HistoricalCheckOutResult = (props: Props) => {
             {canCheckIn && (
               <Button
                 className="checkoutButton"
-                //onClick={checkInBook}
+                onClick={checkIn}
                 variant="primary"
               >
-                Checkout
+                Checkin
               </Button>
             )}
           </Col>
           <Col sm={4}>
             <Button
               className="checkoutButton"
-              //onClick={() => setcheckInBook(false)}
+              onClick={() => setCheckInBook(false)}
               variant="primary"
             >
               Cancel
