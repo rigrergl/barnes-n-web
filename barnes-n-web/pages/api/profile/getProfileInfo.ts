@@ -5,18 +5,10 @@ import connectionPool from "@/lib/db";
 import { TokenExpiredError } from "jsonwebtoken";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { userId } = req.body;
+    let { userId } = req.body;
     const cookie = req.headers.cookie || "";
     const accessToken = getCookieByName("accessToken", cookie);
     let decodedToken;
-
-    // validate input
-    if (!userId) {
-        return res.status(400).send({
-            error: true,
-            message: "Missing userId parameter"
-        });
-    }
 
     // users can only see their own profile information
     if (!accessToken) {
@@ -28,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         decodedToken = await verifyToken(accessToken);
-        if (decodedToken.user_id !== userId) {
+        if (userId && decodedToken.user_id !== userId) {
             res.status(401).send({
                 error: true,
                 message: "User id provided in request does not match user id of logged in user"
@@ -41,6 +33,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 message: "Access token has expired. Please log in again"
             })
         }
+    }
+
+    if (!userId) {
+        userId = decodedToken.user_id;
     }
 
     // at this point, we have authenticated user

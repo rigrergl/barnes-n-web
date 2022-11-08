@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(405).end(`Method ${httpMethod} not allowed, only POST is allowed for security reasons`);
     }
 
-    const { title, isbn10, isbn13, image, author, maxDueDate } = req.body;
+    let { title, isbn10, isbn13, image, author, maxDueDate } = req.body;
 
     const cookie = req.headers.cookie || "";
     const accessToken = getCookieByName('accessToken', cookie);
@@ -19,6 +19,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const decodedToken = verifyToken(accessToken);
     const userId = decodedToken.user_id;
     
+    if (isbn10 === "") {
+        isbn10 = null;
+    }
+
     // const query = `CALL CreateListing(${userId}, '${title}', 'POINT(${latitude} ${longitude})', '${isbn10}', '${isbn13}', '${image}', '${author}', STR_TO_DATE('${maxDueDate}', '%d %m %Y'))`
     const query = `CALL CreateListing(${userId}, '${title}', '${isbn10}', '${isbn13}', '${image}', '${author}', STR_TO_DATE('${maxDueDate}', '%d %m %Y'))`
 
