@@ -5,20 +5,22 @@
 }
 
 .searchInputBox {
-  position: relative;
-  text-align: left;
-  font-size: 15px;
-  height: 30px;
-  width: 300px;
-  margin-bottom: 10px;
+  border-radius: 25px;
+  background-color: #e5e5e5;
+  margin-top: 4%;
+  width: 80%;
+  height: 80%;
+  min-width: 490px;
+  min-height: 490px;
+  padding: 1%;
 }
 
-.searchButton {
-  position: relative;
-  text-align: center;
-  font-size: 15px;
-  height: 40px;
-  width: 150px;
-  background: #fb8500;
+.searchResultsBox {
   border-radius: 25px;
+  background-color: #e5e5e5;
+  margin-top: 4%;
+  width: 80%;
+  height: 80%;
+  min-width: 490px;
+  min-height: 490px;
 }

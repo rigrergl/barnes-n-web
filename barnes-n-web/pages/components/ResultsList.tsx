@@ -1,5 +1,6 @@
 import { ListGroupItem } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useState, useEffect } from "react";
 import type { Listing } from "./Result";
 import Result from "./Result";
 
@@ -8,12 +9,10 @@ type Props = {
 };
 
 const ResultsList = ({ results }: Props) => {
+  const [showResultsMessage, setResultsMessage] = useState(false);
+
   if (!results?.length) {
-    return (
-      <div>
-        <h1>No results found</h1>
-      </div>
-    );
+    return <div></div>;
   }
   return (
     <ListGroup>

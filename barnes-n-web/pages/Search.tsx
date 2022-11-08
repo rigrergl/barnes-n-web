@@ -11,13 +11,10 @@ import type { Listing } from "./components/Result";
 
 const Search = () => {
   const [listings, setListings] = useState<Listing[]>();
-  const [longitude, setLongitude] = useState("");
-  const [latitude, setLatitude] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [isbn_13, setIsbn_13] = useState("");
   const [isbn_10, setIsbn_10] = useState("");
-  const [maxDistance, setMaxDistance] = useState("");
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
 
@@ -32,9 +29,9 @@ const Search = () => {
         isbn_10: isbn_10,
         isbn_13: isbn_13,
         author: author,
-        latitude: latitude,
-        longitude: longitude,
-        maxDistanceInMiles: maxDistance,
+        latitude: null,
+        longitude: null,
+        maxDistanceInMiles: null,
       }),
     })
       .then((res) => res.json())
@@ -47,56 +44,11 @@ const Search = () => {
   return (
     <div>
       <Header />
-      <Container fluid="sm">
-        <Row style={{ backgroundColor: "#e5e5e5" }}>
+      <Container fluid="sm" className="searchInputBox">
+        <Row>
           <Col>
             <h3 style={{ textAlign: "center" }}>Search</h3>
             <Form>
-              <Form.Label>Location</Form.Label>
-              <Row className="mb-3">
-                <Form.Group
-                  className="mb-3"
-                  as={Col}
-                  controlId="formGridLongitude"
-                >
-                  <Form.Control
-                    style={{ width: "18vw" }}
-                    type="longitude"
-                    placeholder="Longitude"
-                    value={longitude}
-                    onChange={(e) => setLongitude(e.target.value)}
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3"
-                  as={Col}
-                  controlId="formGridLatitude"
-                >
-                  <Form.Control
-                    style={{ width: "18vw" }}
-                    type="latitude"
-                    placeholder="Latitude"
-                    value={latitude}
-                    onChange={(e) => setLatitude(e.target.value)}
-                  />
-                </Form.Group>
-              </Row>
-
-              <Form.Group
-                className="mb-3"
-                as={Col}
-                controlId="formGridDistance"
-              >
-                <Form.Control
-                  style={{ width: "18vw" }}
-                  type="maxDistance"
-                  placeholder="Distance"
-                  value={maxDistance}
-                  onChange={(e) => setMaxDistance(e.target.value)}
-                />
-              </Form.Group>
-
               <Form.Group controlId="formGridSearchCriteria">
                 <Form.Label>Search Criteria</Form.Label>
                 <Form.Control

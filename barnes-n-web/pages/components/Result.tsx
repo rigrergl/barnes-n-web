@@ -11,7 +11,6 @@ export type Listing = {
   listing_id?: string;
   ownerId?: string;
   title?: string;
-  locationId?: string;
   isbn_10?: string;
   isbn_13?: string;
   image?: string;
