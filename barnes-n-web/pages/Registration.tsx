@@ -1,5 +1,5 @@
 import Header from "./components/Header";
-import { useState, createRef } from "react";
+import { useState, useEffect } from "react";
 import getConfig from "next/config";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Alert } from "react-bootstrap";
-import StateDropdown from "./components/StateDropdown";
+import Link from 'next/link'
 
 const Registration = () => {
   const [username, setUsername] = useState("");
@@ -22,12 +22,35 @@ const Registration = () => {
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [success, setSuccess] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [statusMessage, setStatusMessage] = useState("");
   const [hasError, setHasError] = useState(false);
 
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
+
+  const checksignin = () => {
+    fetch(backendUrl + "/auth/verifyCredentials", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(
+        response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log(loggedIn);
+            } else {
+                // TODO
+            }
+        }
+    )
+  }
+
+  useEffect(() => { 
+    checksignin();
+  }, [] );
 
   const signup = async () => {
     if (
@@ -95,7 +118,7 @@ const Registration = () => {
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               required
               onChange={(e) => setUsername(e.target.value)}
@@ -103,12 +126,12 @@ const Registration = () => {
               id="inputUsername"
               placeholder="Username"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
-            <Form.Control
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
+          <Form.Control
               required
               onChange={(e) => setPassword(e.target.value)}
               type="password"
@@ -117,7 +140,7 @@ const Registration = () => {
               placeholder="Password"
             />
             <div className="top2">
-              <Form.Control
+            <Form.Control
                 required
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 type="password"
@@ -131,11 +154,11 @@ const Registration = () => {
               numbers, and must not contain spaces, special characters, or
               emoji.
             </Form.Text>
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               required
               onChange={(e) => setName(e.target.value)}
@@ -143,11 +166,11 @@ const Registration = () => {
               id="inputFullName"
               placeholder="Full Name"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               required
               onChange={(e) => setPhone(e.target.value)}
@@ -155,11 +178,11 @@ const Registration = () => {
               id="inputPhone"
               placeholder="Phone Number"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               required
               onChange={(e) => setEmail(e.target.value)}
@@ -167,11 +190,11 @@ const Registration = () => {
               id="inputEmail"
               placeholder="Email"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               required
               onChange={(e) => setStreet(e.target.value)}
@@ -179,22 +202,22 @@ const Registration = () => {
               id="inputStreet"
               placeholder="Street Address"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col className="registrationInputBox2 top2">
+        {!loggedIn && (<Col className="registrationInputBox2 top2">
             <Form.Control
               onChange={(e) => setOptAddress(e.target.value)}
               type="text"
               id="inputOptional"
               placeholder="Optional Address (Apt., PO, Etc.)"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row className="registrationCityInputBox top2">
-          <Col xs={8}>
+        {!loggedIn && (<Col xs={8}>
             <Form.Control
               required
               onChange={(e) => setCity(e.target.value)}
@@ -202,8 +225,8 @@ const Registration = () => {
               id="inputCity"
               placeholder="City"
             />
-          </Col>
-          <Col xs={4}>
+          </Col>)}
+          {!loggedIn && (<Col xs={4}>
             {/*<StateDropdown />*/}
             <Form.Select
               aria-label="State"
@@ -270,11 +293,11 @@ const Registration = () => {
               <option value="Wisconsin">WI</option>
               <option value="Wyoming">WY</option>
             </Form.Select>
-          </Col>
+          </Col>)}
         </Row>
 
         <Row className="registrationCityInputBox top2">
-          <Col xs={8}>
+        {!loggedIn && (<Col xs={8}>
             <Form.Control
               required
               onChange={(e) => setZipcode(e.target.value)}
@@ -282,15 +305,21 @@ const Registration = () => {
               id="inputZipcode"
               placeholder="Zipcode"
             />
-          </Col>
+          </Col>)}
         </Row>
 
         <Row>
-          <Col>
+        {!loggedIn && (<Col>
             <Button className="submitButton" onClick={signup} variant="primary">
               Register
             </Button>
-          </Col>
+          </Col>)}
+          {loggedIn && (<Col>
+            <p style={{textAlign:'center'}}>You are already Logged in</p>
+            <Link href="/Logout" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Logout Page</button></a>
+            </Link>
+          </Col>)}
         </Row>
       </Container>
     </div>
