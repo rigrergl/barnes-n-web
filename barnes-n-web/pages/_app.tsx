@@ -8,6 +8,7 @@ import "./css/loanbooksubmission.css";
 import "./css/profile.css";
 import "./css/checkout.css";
 import "./css/indexStyle.css";
+import "./css/history.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
