@@ -46,7 +46,11 @@ const Logout = () => {
     });
 
     const data = await response.json();
-    setSuccess(response.ok);
+    if (response.ok) {
+      setSuccess(true);
+      window.location.reload();
+    }
+
     setLoggedOut(true);
     setStatusMessage(data.message);
   };
