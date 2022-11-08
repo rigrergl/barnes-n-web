@@ -40,6 +40,7 @@ const Login = () => {
             if (response.ok) {
                 setSuccess(true);
                 setLoggedIn(true);
+                window.location.reload();
             } else {
                 // TODO
             }
