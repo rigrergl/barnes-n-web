@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
-import ExampleComponent from "./components/ExampleComponent";
 import Container from "react-bootstrap/Container";
 import React from 'react';
-import TempPages from "./components/TempPages";
 import Header from "./components/Header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Login from "./Login";
 import { Button } from "react-bootstrap";
+
+
+const navigateToRegistration = () => {
+  window.location.href = "/Registration";
+};
 
 const Home: NextPage = () => {
   return (
@@ -30,12 +32,11 @@ const Home: NextPage = () => {
           </Col>
         </Row>
 
-        {/* move the button to the right. */}
         <Row>
           <Button
             className='GetStarted'
             name='getStarted'
-            onClick={Login}
+            onClick={navigateToRegistration}
             variant="primary"> Get Started </Button>
         </Row>
 
@@ -45,14 +46,6 @@ const Home: NextPage = () => {
           </Col>
         </Row>
 
-        {/* this will be better lmao */}
-        {/* <Row >
-          <Col className='homepageBody'>
-            Create an account.              Search for the book you're looking for.            Borrow the book! <br />
-
-            It's that easy.
-          </Col>
-        </Row> */}
         <Row>
           <div className="circle">
             <p className="textInCircle">Create an account <br/> or log in</p>
@@ -65,8 +58,9 @@ const Home: NextPage = () => {
           <div className="circle2">
             <p className="textInCircle">Borrow the book from our amazing loaners!</p>
           </div>
-
         </Row>
+
+
       </Container>
 
     </div>

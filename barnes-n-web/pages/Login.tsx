@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Alert } from 'react-bootstrap';
+import Link from 'next/link'
 
 
 const bcrypt = require("bcryptjs");
@@ -38,6 +39,7 @@ const Login = () => {
         response => {
             if (response.ok) {
                 setSuccess(true);
+                setLoggedIn(true);
             } else {
                 // TODO
             }
@@ -67,9 +69,7 @@ const checksignin = () => {
 
   return (
     <div className='page'>
-        
-
-
+      
         {/* Header Component */}
         <Header />
         
@@ -87,13 +87,13 @@ const checksignin = () => {
           </Col>
         </Row>
         <Row>
-          <Col className='newUserLink'>
+        {!loggedIn && (<Col className='newUserLink'>
             New User? Sign Up
             <p className='newUserLine'></p>
-          </Col>
+          </Col>)}
         </Row>
         <Row>
-          <Col >
+        {!loggedIn && (<Col >
             <Form.Label htmlFor="inputUsername">Username:</Form.Label>
             <Form.Control
                 onChange={(e) => setUsername(e.target.value)}
@@ -101,10 +101,10 @@ const checksignin = () => {
                 id="inputUsername"
                 placeholder="Username"
             />
-          </Col>
+          </Col>)}
         </Row>
         <Row>
-          <Col className='top2'>
+        {!loggedIn && (<Col className='top2'>
             <Form.Label htmlFor="inputPassword5">Password:</Form.Label>
             <Form.Control
                 onChange={(e) => setPassword(e.target.value)}
@@ -119,7 +119,14 @@ const checksignin = () => {
                 Your password must be 8-20 characters long, contain letters and numbers,
                 and must not contain spaces, special characters, or emoji.
           </Form.Text>*/}
-          </Col>
+          </Col>)}
+
+          {loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are already Logged in</p>
+            <Link href="/Logout" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Logout Page</button></a>
+            </Link>
+          </Col>)}
         </Row>
         <Row>
           
