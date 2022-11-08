@@ -10,7 +10,13 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL,
     hashedPassword VARCHAR(255) NOT NULL,
-    photo_id BLOB
+    fullname VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    optaddress VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    zipcode VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE GeoLocation (
@@ -29,8 +35,9 @@ CREATE TABLE Listings (
     image BLOB, 
     author VARCHAR(255),
     max_due_date DATE,
-    is_rented BOOLEAN NOT NULL DEFAULT FALSE,
+    rented_by INT, 
     FOREIGN KEY (location_id) REFERENCES GeoLocation(location_id),
-    FOREIGN KEY (owner_id) REFERENCES Users(user_id)
+    FOREIGN KEY (owner_id) REFERENCES Users(user_id),
+    FOREIGN KEY (rented_by) REFERENCES Users(user_id)
 );
 

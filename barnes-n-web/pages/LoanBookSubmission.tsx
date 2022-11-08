@@ -1,114 +1,157 @@
 import { useState, createRef } from 'react'
+import Header from "./components/Header";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import getConfig from 'next/config'
 import { Alert, FormGroup } from 'react-bootstrap';
+import genMockCoordinates from '@/lib/genMockCoordinates';
 
 const bcrypt = require("bcryptjs");
 
 const LoanBookSubmission = () => {
-    const [loanerName, setLoanername] = useState("");
-    const [email, setEmail] = useState("");
-    const [bookName, setBookName] = useState("");
-    const [authorName, setAuthorName] = useState("");
-    const [ISBN10, setISBN10] = useState("");
-    const [ISBN13, setISBN13] = useState("");
-    const [price, setPrice] = useState("");
-    const [errorMessages, setErrorMessages] = useState({});
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [isbn10, setISBN10] = useState("");
+    const [isbn13, setISBN13] = useState("");
+    const [maxDueDate, setReturnBy] = useState("");
+    const [accept, setAccept] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
 
-//Please log in before submitting a page message maybe??
-//Don't allow to submit unless checkbox is clicked
+    const [statusMessage, setStatusMessage] = useState("");
+    const [hasError, setHasError] = useState(false);
+
+    const createListing = async () => {
+        if (
+          title != "" &&
+          author != "" &&
+          isbn10 != "" &&
+          isbn13 != "" &&
+          maxDueDate != ""
+        ) {
+            const  coords = genMockCoordinates();
+            const response = await fetch(backendUrl + "/listings/createListing", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: title,
+                isbn10: isbn10,
+                isbn13: isbn13,
+                author: author,
+                latitude: coords.latitudeString,
+                longitude: coords.longitudeString,
+                maxDistance: '50',
+                maxDueDate: maxDueDate,
+              }),
+            });
+    
+            const data = await response.json();
+            setHasError(response.status !== 200);
+            setStatusMessage(data.message);
+            setIsSubmitted(true);
+          }
+        else {
+          setStatusMessage("All Fields must be entered");
+        }
+    };
 
     return (
-        <Form style={{ paddingLeft: "35%", width: "70%", paddingTop: 50}}>
-             {isSubmitted &&
-                (<Alert variant="success">
-                    Successfully logged in!
-                </Alert>)}
-            <Form.Group as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputLoanerName"> </Form.Label>
-                <Form.Control
-                    onChange={(e) => setLoanername(e.target.value)}
-                    type="text"
-                    id="inputLoanerName"
-                    placeholder="Enter your name" 
-                />
-            </Form.Group>
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputEmail"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    id="inputEmail"
-                    placeholder="Enter your email" 
-                    //aria-describedby="passwordHelpBlock"
-                />
-                {/* <Form.Text id="passwordHelpBlock" muted> We'll never share your email with anyone else.
-                </Form.Text> */}
-            </FormGroup>
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputBookName"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setBookName(e.target.value)}
-                    type="text"
-                    id="inputBookName"
-                    placeholder="Enter book's name" 
-                />
-            </FormGroup>
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputAuthorName"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setAuthorName(e.target.value)}
-                    type="text"
-                    id="inputAuthorName"
-                    placeholder="Enter author's name" 
-                />
-            </FormGroup>
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputISBN10"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setISBN10(e.target.value)}
-                    type="text"
-                    id="inputISBN10"
-                    placeholder="Enter ISBN 10" 
-                />
-            </FormGroup>
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputISBN13"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setISBN13(e.target.value)}
-                    type="text"
-                    id="inputISBN13"
-                    placeholder="Enter ISBN 13" 
-                />
-            </FormGroup>
+        <div className='page'>
+            <Header />
 
-            
-            <FormGroup  as={Row} className = "mb-3">
-                <Form.Label htmlFor="inputPrice"></Form.Label>
-                <Form.Control
-                    onChange={(e) => setPrice(e.target.value)}
-                    type="text"
-                    id="inputPrice"
-                    placeholder="Enter price" 
-                />
+            <Container fluid="sm" className='submissionBox2'>
 
-            </FormGroup>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                
-                <Form.Check type="checkbox" label="I agree that the information above is completely accurate" />
-            </Form.Group>
+                <Row className='toastRow'>
+                    {isSubmitted &&
+                        (<Alert className='alertToast' variant="success">
+                            {statusMessage}
+                            Successfully submitted a book to be loaned out!
+                        </Alert>)}
+                </Row>
 
-            <div style={{ width: 100, paddingTop: 10, marginLeft: "auto" }}>
-                <Button onClick={LoanBookSubmission} style={{ float: "right" }} variant="primary">Submit</Button>
-            </div>
-        </Form>
+                <Row >
+                    <Col className='submissionText'>
+                        Book Submission Form
+                    </Col>
+                </Row>
 
+                <Row >
+                    <Col className='submissionSmallText'>
+                        Ready to loan your book? - Please enter all necessary information
+                    </Col>
+                </Row>
+
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputTitle"></Form.Label>
+                    <Form.Control
+                        onChange={(e) => setTitle(e.target.value)}
+                        type="text"
+                        id="inputTitle"
+                        placeholder="Enter the book's title"
+                    />
+                </Row>
+
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputAuthor"></Form.Label>
+                    <Form.Control
+                        onChange={(e) => setAuthor(e.target.value)}
+                        type="text"
+                        id="inputAuthor"
+                        placeholder="Enter the author's name"
+                    />
+                </Row>
+
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputISBN10"></Form.Label>
+                    <Form.Control
+                        onChange={(e) => setISBN10(e.target.value)}
+                        type="text"
+                        id="inputISBN10"
+                        placeholder="Enter ISBN 10"
+                    />
+                </Row>
+
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputISBN13"></Form.Label>
+                    <Form.Control
+                        onChange={(e) => setISBN13(e.target.value)}
+                        type="text"
+                        id="inputISBN13"
+                        placeholder="Enter ISBN 13"
+                    />
+                </Row>
+
+                <Row as={Row} className="mx-auto mb-3">
+                    <Form.Label htmlFor="inputReturnBy"></Form.Label>
+                    <Form.Control
+                        onChange={(e) => setReturnBy(e.target.value)}
+                        type="text"
+                        id="inputReturnBy"
+                        placeholder="Enter Return By Date"
+                    />
+                </Row>
+
+                <Row className="mx-auto mb-3" >
+                    <Form.Check type="checkbox" id='checkBox' onChange={() => setAccept(!accept)} label="I agree that the information above is completely accurate" />
+                </Row> 
+
+                <Row>
+                    {accept && (<Button
+                        className='submitButton'
+                        name='submission'
+                        onClick={createListing}
+                        variant="primary">Submit</Button>)}
+                </Row>
+
+            </Container>
+        </div>
     )
 }
 

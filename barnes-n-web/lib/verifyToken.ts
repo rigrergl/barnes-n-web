@@ -9,7 +9,7 @@ var verifyToken = (token: any) => {
         const decoded = jwt.verify(token, publicKey);
         return decoded;
     } catch (err) {
-        secureLog(err);
+        throw err;
     }
 }
 

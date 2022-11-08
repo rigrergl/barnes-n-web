@@ -45,17 +45,20 @@ const Search = () => {
   };
 
   return (
-    <div className="page">
+    <div>
       <Header />
-      <Container fluid="sm" className="searchBox">
+      <Container fluid="sm">
         <Row style={{ backgroundColor: "#e5e5e5" }}>
-          <Col sm={1}></Col>
           <Col>
             <h3 style={{ textAlign: "center" }}>Search</h3>
             <Form>
               <Form.Label>Location</Form.Label>
-              <Row>
-                <Form.Group as={Col} controlId="formGridLongitude">
+              <Row className="mb-3">
+                <Form.Group
+                  className="mb-3"
+                  as={Col}
+                  controlId="formGridLongitude"
+                >
                   <Form.Control
                     style={{ width: "18vw" }}
                     type="longitude"
@@ -65,7 +68,11 @@ const Search = () => {
                   />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridLatitude">
+                <Form.Group
+                  className="mb-3"
+                  as={Col}
+                  controlId="formGridLatitude"
+                >
                   <Form.Control
                     style={{ width: "18vw" }}
                     type="latitude"
@@ -76,7 +83,11 @@ const Search = () => {
                 </Form.Group>
               </Row>
 
-              <Form.Group as={Col} controlId="formGridDistance">
+              <Form.Group
+                className="mb-3"
+                as={Col}
+                controlId="formGridDistance"
+              >
                 <Form.Control
                   style={{ width: "18vw" }}
                   type="maxDistance"
@@ -89,6 +100,7 @@ const Search = () => {
               <Form.Group controlId="formGridSearchCriteria">
                 <Form.Label>Search Criteria</Form.Label>
                 <Form.Control
+                  className="mb-3"
                   style={{ width: "31vw" }}
                   type="title"
                   placeholder="Title"
@@ -97,7 +109,7 @@ const Search = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="formGridAuthor">
+              <Form.Group className="mb-3" controlId="formGridAuthor">
                 <Form.Control
                   style={{ width: "25vw" }}
                   type="author"
@@ -107,7 +119,7 @@ const Search = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="formGridIsbn13">
+              <Form.Group className="mb-3" controlId="formGridIsbn13">
                 <Form.Control
                   style={{ width: "15vw" }}
                   type="isbn_13"
@@ -117,7 +129,7 @@ const Search = () => {
                 />
               </Form.Group>
 
-              <Form.Group controlId="formGridIsbn10">
+              <Form.Group className="mb-3" controlId="formGridIsbn10">
                 <Form.Control
                   style={{ width: "15vw" }}
                   type="isbn_10"
@@ -137,7 +149,6 @@ const Search = () => {
               <ResultsList results={listings} />
             </Row>
           </Col>
-          <Col></Col>
         </Row>
       </Container>
     </div>
