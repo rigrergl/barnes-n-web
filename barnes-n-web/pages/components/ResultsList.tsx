@@ -7,13 +7,17 @@ type Props = {
   results?: Listing[];
 };
 
+const getDateString = (date: string | undefined) => {
+  if (!date) {
+    return "";
+  } else {
+    return new Date(date).toDateString();
+  }
+};
+
 const ResultsList = ({ results }: Props) => {
   if (!results?.length) {
-    return (
-      <div>
-        <h1>No results found</h1>
-      </div>
-    );
+    return <div></div>;
   }
   return (
     <ListGroup>
@@ -26,7 +30,7 @@ const ResultsList = ({ results }: Props) => {
               isbn_10={isbn_10}
               isbn_13={isbn_13}
               listing_id={listing_id}
-              max_due_date={max_due_date}
+              max_due_date={getDateString(max_due_date)}
             />
           )
         )}
