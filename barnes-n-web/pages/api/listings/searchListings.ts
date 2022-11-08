@@ -18,13 +18,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     isbn_10,
     isbn_13,
     author,
-    latitude,
-    longitude,
+//   latitude,
+//    longitude,
     maxDistanceInMiles,
   } = req.body;
-  const maxDistanceInMeters = 1609.34 * maxDistanceInMiles;
+  // const maxDistanceInMeters = 1609.34 * maxDistanceInMiles;
 
-  const query = `CALL SearchListings('${bookTitle}', '${isbn_10}', '${isbn_13}', '${author}', 'POINT(${latitude} ${longitude})', ${maxDistanceInMeters})`;
+  // const query = `CALL SearchListings('${bookTitle}', '${isbn_10}', '${isbn_13}', '${author}', 'POINT(${latitude} ${longitude})', ${maxDistanceInMeters})`;
+  const query = `CALL SearchListings('${bookTitle}', '${isbn_10}', '${isbn_13}', '${author}')`;
+
 
   try {
     connectionPool.query(query, (error: any, results: any, _fields: any) => {
