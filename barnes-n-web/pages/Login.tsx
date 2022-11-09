@@ -1,5 +1,4 @@
 import Header from "./components/Header";
-import { useState, useEffect } from 'react'
 import getConfig from 'next/config'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Alert } from 'react-bootstrap';
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 
 const bcrypt = require("bcryptjs");
@@ -70,7 +70,7 @@ const checksignin = () => {
 
   return (
     <div className='page'>
-      
+
         {/* Header Component */}
         <Header />
         
@@ -89,7 +89,9 @@ const checksignin = () => {
         </Row>
         <Row>
         {!loggedIn && (<Col className='newUserLink'>
-            New User? Sign Up
+          <Link href="/Registration">
+                <a style={{textDecoration: 'none', color:'black'}}>New User? Sign Up</a>
+            </Link>
             <p className='newUserLine'></p>
           </Col>)}
         </Row>

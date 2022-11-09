@@ -1,48 +1,82 @@
 import Header from "./components/Header";
-import { useState, createRef } from 'react'
-import getConfig from 'next/config'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Alert } from 'react-bootstrap';
-
-
-
-
-
+import { useState, useEffect } from "react";
+import getConfig from "next/config";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import HistoricalLoanList from "./components/HistoricalLoanList";
+import HistoricalCheckOutList from "./components/HistoricalCheckOutList";
+import type { HistoricalLoanListing } from "./components/HistoricalLoanResult";
+import type { HistoricalCheckOutListing } from "./components/HistoricalCheckOutResult";
 
 const History = () => {
+  const { publicRuntimeConfig } = getConfig();
+  const backendUrl = publicRuntimeConfig.backendUrl;
+  const [success, setSuccess] = useState(0);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [checkoutListings, setcheckOutListings] =
+    useState<HistoricalCheckOutListing[]>();
+  const [loanListings, setLoanListings] = useState<HistoricalLoanListing[]>();
 
-    const { publicRuntimeConfig } = getConfig();
-    const backendUrl = publicRuntimeConfig.backendUrl;
-    const [success, setSuccess] = useState(0);
-    const [statusMessage, setStatusMessage] = useState("");
-    const [hasError, setHasError] = useState(false);
+  useEffect(() => {
+    getCheckoutHistory();
+    getLoanHistory();
+  }, []);
 
-    const getHistory = async () => {
-    const response = await fetch(backendUrl + "/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-
-        })
+  const getCheckoutHistory = async () => {
+    const response = await fetch(backendUrl + "/listings/myCheckouts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
     });
 
-        const data = await response.json();
-        setHasError(response.status !== 200);
-        setStatusMessage(data.message);
+    const data = await response.json();
+    setHasError(response.status !== 200);
+    setStatusMessage(data.message);
+    setcheckOutListings(data);
+  };
 
-    }
+  const getLoanHistory = async () => {
+    const response = await fetch(backendUrl + "/listings/myListings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    });
 
-    return (
-        <div className='page'>
-            <Header />
-        </div>
-    )
-}
+    const data = await response.json();
+    setHasError(response.status !== 200);
+    setStatusMessage(data.message);
+    setLoanListings(data);
+  };
 
-export default History
+  return (
+    <div className="page">
+      <Header />
+      <Container fluid="sm" className="historyBox">
+        <Row>
+          <Col className="submissionText">History</Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Check Outs</h3>
+            <HistoricalCheckOutList results={checkoutListings} />
+          </Col>
+          <Col>
+            <h3 style={{ textAlign: "center" }}>Loans</h3>
+            <HistoricalLoanList results={loanListings} />
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default History;

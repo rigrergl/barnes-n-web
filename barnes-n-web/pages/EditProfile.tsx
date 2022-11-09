@@ -1,5 +1,6 @@
 import Header from "./components/Header";
-import { useState, createRef } from 'react'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import getConfig from 'next/config'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,7 +13,7 @@ const EditProfile = () => {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [street, setStreet] = useState("");
-    const [optAddress, setOptAddress] = useState("");
+    const [optaddress, setOptAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipcode, setZipcode] = useState("");
@@ -23,24 +24,91 @@ const EditProfile = () => {
 
     const { publicRuntimeConfig } = getConfig();
     const backendUrl = publicRuntimeConfig.backendUrl;
+    const [loggedIn, setLoggedIn] = useState(false);
 
-    const updateprofile = async () => {
-        const response = await fetch(backendUrl + "/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
+    useEffect(() => { 
+      checksignin();
+      getprofileinfo();
+    }, [] );
 
-            })
+    const getprofileinfo = async () => {
+    
+      const response = await fetch(backendUrl + "/profile/getProfileInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      const data = await response.json();
+
+      if(response.ok)
+      {
+        setPhone(data.phone);
+        setEmail(data.email);
+        setStreet(data.street);
+        setOptAddress(data.optaddress);
+        setCity(data.city);
+        setState(data.state);
+        setZipcode(data.zipcode);
+      }
+      else
+      {
+        setStatusMessage(data.message);
+      }
+      
+    };
+
+    const checksignin = () => {
+      fetch(backendUrl + "/auth/verifyCredentials", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          }
+      }).then(
+          response => {
+              if (response.ok) {
+                  setLoggedIn(true);
+                  console.log(loggedIn);
+              } else {
+                  // TODO
+              }
+          }
+      )
+    }
+
+    const updateProfile = async () => {
+      if(phone != "" &&
+      email != "" &&
+      street != "" &&
+      city != "" &&
+      state != "" &&
+      zipcode != "")
+      {
+        const response = await fetch(backendUrl + "/profile/editProfile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: phone, 
+            email: email, 
+            street: street, 
+            optaddress: optaddress, 
+            city: city, 
+            state: state, 
+            zipcode: zipcode,
+          }),
         });
-        
 
         const data = await response.json();
         setHasError(response.status !== 200);
         setStatusMessage(data.message);
     }
-
+    else
+    {
+      setStatusMessage("Value changed cannot be empty, refresh page if needed");
+    }
+  }
 
     return (
         <div className='page'>
@@ -64,50 +132,50 @@ const EditProfile = () => {
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setPhone(e.target.value)}
                     type="text"
                     id="inputPhone"
                     placeholder="Phone Number"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setEmail(e.target.value)}
                     type="text"
                     id="inputEmail"
                     placeholder="Email"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setStreet(e.target.value)}
                     type="text"
                     id="inputStreet"
                     placeholder="Street Address"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col className='registrationInputBox2 top2'>
+          {loggedIn && (<Col className='registrationInputBox2 top2'>
               <Form.Control
                     onChange={(e) => setOptAddress(e.target.value)}
                     type="text"
                     id="inputOptional"
                     placeholder="Optional Address (Apt., PO, Etc.)"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
-          <Row className='registrationCityInputBox top2'>
+          {loggedIn && (<Row className='registrationCityInputBox top2'>
             <Col xs={8}>
               <Form.Control
                     onChange={(e) => setCity(e.target.value)}
@@ -181,23 +249,30 @@ const EditProfile = () => {
                 <option value="Wyoming">WY</option>
           </Form.Select>
             </Col>
-          </Row>
+          </Row>)}
     
           <Row className='registrationCityInputBox top2'>
-            <Col xs={8}>
+          {loggedIn && (<Col xs={8}>
               <Form.Control
                     onChange={(e) => setZipcode(e.target.value)}
                     type="text"
                     id="inputZipcode"
                     placeholder="Zipcode"
                 />
-            </Col>
+            </Col>)}
           </Row>
     
           <Row>
-            <Col >
-              <Button className='submitButton' onClick={updateprofile} variant="primary">Update</Button>
-            </Col>
+          {loggedIn && (<Col >
+              <Button className='submitButton' onClick={updateProfile} variant="primary">Update</Button>
+            </Col>)}
+
+          {!loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+          </Col>)}
           </Row>
         </Container>
     

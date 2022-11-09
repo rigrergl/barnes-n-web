@@ -1,13 +1,13 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useState, createRef } from "react";
+import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Alert } from "react-bootstrap";
 import getConfig from "next/config";
 
-export type Listing = {
+export type HistoricalCheckOutListing = {
   listing_id?: string;
   ownerId?: string;
   title?: string;
@@ -16,7 +16,7 @@ export type Listing = {
   image?: string;
   author?: string;
   max_due_date?: string;
-  isRented?: string;
+  rented_by?: string;
 };
 
 type Props = {
@@ -26,27 +26,31 @@ type Props = {
   isbn_13?: string;
   listing_id?: string;
   max_due_date?: string;
+  rented_by?: string;
 };
 
-const Result = (props: Props) => {
-  const [checkoutBook, setCheckoutBook] = useState(false);
+const HistoricalCheckOutResult = (props: Props) => {
+  const [checkInBook, setCheckInBook] = useState(false);
   const [success, setSuccess] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [hasError, setHasError] = useState(false);
-  const [canCheckOut, setCanCheckOut] = useState(true);
+  const [canCheckIn, setCanCheckIn] = useState(true);
+  const [currentlyRenting, setCurrentlyRenting] = useState(false);
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
 
-  const finishCheckout = () => {
-    console.log("DD: " + props.max_due_date);
-    setCanCheckOut(false);
-    setStatusMessage("You have checked out the book");
-    setSuccess(true);
+  useEffect(() => {
+    checkRentedBy();
+  }, []);
+
+  const checkRentedBy = () => {
+    if (props.rented_by != null || props.rented_by != "") {
+      setCurrentlyRenting(true);
+    }
   };
 
-  const checkOutBook = () => {
-    finishCheckout();
-    fetch(backendUrl + "/listings/checkoutBook", {
+  const checkIn = async () => {
+    const response = await fetch(backendUrl + "/listings/returnBook", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,14 +58,27 @@ const Result = (props: Props) => {
       body: JSON.stringify({
         listingId: props.listing_id,
       }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log("Success");
-      });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setCanCheckIn(false);
+      setCurrentlyRenting(false);
+      setCheckInBook(false);
+      setSuccess(true);
+    } else {
+      setStatusMessage(data.message);
+      setSuccess(true);
+    }
   };
 
-  if (!checkoutBook) {
+  const finishCheckIn = () => {
+    console.log("DD: " + props.max_due_date);
+    setCanCheckIn(false);
+    setStatusMessage("You have checked in the book");
+    setSuccess(true);
+  };
+
+  if (!checkInBook) {
     return (
       <Card className="searchResults">
         <Card.Header>{props.title}</Card.Header>
@@ -70,13 +87,19 @@ const Result = (props: Props) => {
           <Card.Text>ISBN 10: {props.isbn_10}</Card.Text>
           <Card.Text>ISBN 13: {props.isbn_13}</Card.Text>
           <Card.Text>Due Date: {props.max_due_date}</Card.Text>
-          <Button
-            className="submitButton"
-            onClick={() => setCheckoutBook(true)}
-            variant="primary"
-          >
-            Checkout
-          </Button>
+
+          {currentlyRenting && <Card.Text>Currently Renting: Yes</Card.Text>}
+          {!currentlyRenting && <Card.Text>Currently Renting: No</Card.Text>}
+
+          {canCheckIn && (
+            <Button
+              className="submitButton"
+              onClick={() => setCheckInBook(true)}
+              variant="primary"
+            >
+              Checkin
+            </Button>
+          )}
         </Card.Body>
       </Card>
     );
@@ -92,7 +115,7 @@ const Result = (props: Props) => {
         </Row>
 
         <Row>
-          <Col className="loginText">Checkout</Col>
+          <Col className="loginText">Checkin</Col>
         </Row>
 
         <Row>
@@ -128,20 +151,20 @@ const Result = (props: Props) => {
         <Row>
           <Col sm={3}></Col>
           <Col sm={4}>
-            {canCheckOut && (
+            {canCheckIn && (
               <Button
                 className="checkoutButton"
-                onClick={checkOutBook}
+                onClick={checkIn}
                 variant="primary"
               >
-                Checkout
+                Checkin
               </Button>
             )}
           </Col>
           <Col sm={4}>
             <Button
               className="checkoutButton"
-              onClick={() => setCheckoutBook(false)}
+              onClick={() => setCheckInBook(false)}
               variant="primary"
             >
               Cancel
@@ -153,4 +176,4 @@ const Result = (props: Props) => {
   }
 };
 
-export default Result;
+export default HistoricalCheckOutResult;

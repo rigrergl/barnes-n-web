@@ -1,10 +1,10 @@
 import { ListGroupItem } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
-import type { Listing } from "./Result";
-import Result from "./Result";
+import type { HistoricalLoanListing } from "./HistoricalLoanResult";
+import HistoricalLoanResult from "./HistoricalLoanResult";
 
 type Props = {
-  results?: Listing[];
+  results?: HistoricalLoanListing[];
 };
 
 const getDateString = (date: string | undefined) => {
@@ -15,7 +15,7 @@ const getDateString = (date: string | undefined) => {
   }
 };
 
-const ResultsList = ({ results }: Props) => {
+const HistoricalLoanList = ({ results }: Props) => {
   if (!results?.length) {
     return <div></div>;
   }
@@ -23,14 +23,23 @@ const ResultsList = ({ results }: Props) => {
     <ListGroup>
       <ListGroupItem>
         {results.map(
-          ({ title, author, isbn_10, isbn_13, listing_id, max_due_date }) => (
-            <Result
+          ({
+            title,
+            author,
+            isbn_10,
+            isbn_13,
+            listing_id,
+            max_due_date,
+            rented_by,
+          }) => (
+            <HistoricalLoanResult
               title={title}
               author={author}
               isbn_10={isbn_10}
               isbn_13={isbn_13}
               listing_id={listing_id}
               max_due_date={getDateString(max_due_date)}
+              rented_by={rented_by}
             />
           )
         )}
@@ -39,4 +48,4 @@ const ResultsList = ({ results }: Props) => {
   );
 };
 
-export default ResultsList;
+export default HistoricalLoanList;
