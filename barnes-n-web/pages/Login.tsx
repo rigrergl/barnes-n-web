@@ -17,6 +17,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [fail, setFail] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
@@ -25,8 +27,8 @@ const Login = () => {
     checksignin();
   }, [] );
 
-  const login = () => {
-    fetch(backendUrl + "/auth/signin", {
+  const login = async () => {
+    const response = await fetch(backendUrl + "/auth/signin", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -35,17 +37,16 @@ const Login = () => {
             username: username,
             password: password
         })
-    }).then(
-        response => {
-            if (response.ok) {
-                setSuccess(true);
-                setLoggedIn(true);
-                window.location.reload();
-            } else {
-                // TODO
-            }
-        }
-    )
+    });
+    const data = await response.json();
+    if (response.ok) {
+        setSuccess(true);
+        setLoggedIn(true);
+        window.location.reload();
+    } else {
+        setFail(true);
+        setStatusMessage(data.message);
+    }
 }
 
 const checksignin = () => {
@@ -80,6 +81,10 @@ const checksignin = () => {
                   (<Alert className='alertToast' variant="success">
                       Successfully logged in!
                   </Alert>)}
+          {fail &&
+          (<Alert className='alertToast' variant="success">
+              Failed to Login! {statusMessage}
+          </Alert>)}
           </Row>       
         <Row >
         
