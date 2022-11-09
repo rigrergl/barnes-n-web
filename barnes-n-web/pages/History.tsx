@@ -1,5 +1,6 @@
 import Header from "./components/Header";
-import { useState, useEffect } from "react";
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import getConfig from "next/config";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -20,11 +21,31 @@ const History = () => {
   const [checkoutListings, setcheckOutListings] =
     useState<HistoricalCheckOutListing[]>();
   const [loanListings, setLoanListings] = useState<HistoricalLoanListing[]>();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     getCheckoutHistory();
     getLoanHistory();
+    checksignin();
   }, []);
+
+  const checksignin = () => {
+    fetch(backendUrl + "/auth/verifyCredentials", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(
+        response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log(loggedIn);
+            } else {
+                // TODO
+            }
+        }
+    )
+  }
 
   const getCheckoutHistory = async () => {
     const response = await fetch(backendUrl + "/listings/myCheckouts", {
@@ -64,7 +85,7 @@ const History = () => {
           <Col className="submissionText">History</Col>
         </Row>
 
-        <Row>
+        {loggedIn && (<Row>
           <Col>
             <h3 style={{ textAlign: "center" }}>Check Outs</h3>
             <HistoricalCheckOutList results={checkoutListings} />
@@ -73,7 +94,14 @@ const History = () => {
             <h3 style={{ textAlign: "center" }}>Loans</h3>
             <HistoricalLoanList results={loanListings} />
           </Col>
-        </Row>
+        </Row>)}
+
+        {!loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+          </Col>)}
       </Container>
     </div>
   );

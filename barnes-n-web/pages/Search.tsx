@@ -1,4 +1,5 @@
-import { useState } from "react";
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -17,6 +18,29 @@ const Search = () => {
   const [isbn_10, setIsbn_10] = useState("");
   const { publicRuntimeConfig } = getConfig();
   const backendUrl = publicRuntimeConfig.backendUrl;
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => { 
+    checksignin();
+  }, [] );
+
+  const checksignin = () => {
+    fetch(backendUrl + "/auth/verifyCredentials", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(
+        response => {
+            if (response.ok) {
+                setLoggedIn(true);
+                console.log(loggedIn);
+            } else {
+                // TODO
+            }
+        }
+    )
+  }
 
   const submitSearchForm = () => {
     fetch(backendUrl + "/listings/searchListings", {
@@ -46,9 +70,9 @@ const Search = () => {
       <Header />
       <Container fluid="sm" className="searchInputBox">
         <Row>
-          <Col>
+        <Col>
             <h3 style={{ textAlign: "center" }}>Search</h3>
-            <Form>
+            {loggedIn && (<Form>
               <Form.Group controlId="formGridSearchCriteria">
                 <Form.Label>Search Criteria</Form.Label>
                 <Form.Control
@@ -93,15 +117,22 @@ const Search = () => {
               <Button color={"#FB8500"} onClick={submitSearchForm}>
                 Search
               </Button>
-            </Form>
+            </Form>)}
           </Col>
-          <Col>
+          {loggedIn && (<Col>
             <h3 style={{ textAlign: "center" }}>Results</h3>
             <Row>
               <ResultsList results={listings} />
             </Row>
-          </Col>
+          </Col>)}
         </Row>
+
+        {!loggedIn && (<Col className='top2'>
+            <p style={{textAlign:'center'}}>You are not Logged in</p>
+            <Link href="/Login" >
+                <a><button className="submitButton" style={{borderRadius:'25px'}}>Login Page</button></a>
+            </Link>
+          </Col>)}
       </Container>
     </div>
   );
